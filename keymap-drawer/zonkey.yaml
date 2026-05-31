@@ -1,4 +1,4 @@
-layout: {zmk_keyboard: soa44}
+layout: {zmk_keyboard: zonkey}
 layers:
   default:
   - ESCAPE
