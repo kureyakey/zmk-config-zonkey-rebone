@@ -7,7 +7,7 @@
         zmk,battery = &non_lipo_battery;
     };
 
-    soa44_physical_layout: zonkey_physical_layout {
+     zonkey_physical_layout: zonkey_physical_layout {
         compatible = "zmk,physical-layout";
         display-name = "Default";
         transform = <&default_transform>;
