@@ -43,7 +43,7 @@ layers:
   - LEFT ALT
   - {t: INT HENKAN, h: '3'}
   - {t: SPACE, h: '2'}
-  - {t: INT MUHENKAN, h: '1'}
+  - {t: INT5, h: '1'}
   - D
   - BACKSPACE
   - ENTER
@@ -57,9 +57,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: '-', s: _}
+  - {t: '=', s: +}
+  - {t: INT3, s: Sft+0x89}
   - TAB
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -70,8 +70,8 @@ layers:
   - LANGUAGE 2
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: '[', s: '{'}
+  - {t: ']', s: '}'}
   - ENTER
   - LEFT SHIFT
   - {t: ▽, type: trans}
@@ -82,9 +82,9 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - LANGUAGE 1
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - {t: ;, s: KP PLUS}
+  - {t: '''', s: '"'}
+  - {t: \, s: '~'}
   - ENTER
   - {t: ESC, h: LCTL}
   - LEFT WIN
@@ -98,16 +98,16 @@ layers:
   - DEL
   '2':
   - '1'
-  - '2'
+  - {t: '2', s: '@'}
   - '3'
   - '4'
   - '5'
   - {t: ▽, type: trans}
-  - '6'
-  - '7'
-  - '8'
-  - '9'
-  - '0'
+  - {t: '6', s: ^}
+  - {t: '7', s: '&'}
+  - {t: '8', s: '*'}
+  - {t: '9', s: (}
+  - {t: '0', s: Sft+9}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
