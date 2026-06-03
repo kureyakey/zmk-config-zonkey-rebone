@@ -1,9 +1,4 @@
-#include <dt-bindings/zmk/matrix_transform.h>
-#include <input/processors.dtsi>
-#include <dt-bindings/zmk/input_transform.h>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <physical_layouts.dtsi>
-#include "zonkey.dtsi"
+// ... (上部の include 等はそのまま)
 
 / {
     chosen {
@@ -12,63 +7,11 @@
         zephyr,display = &oled;
     };
 
-    kscan0: kscan0 {
-        compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-        gpios
-            =   <&gpio0 15 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 19 GPIO_ACTIVE_LOW>
-            ,  <&gpio1 1 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 9 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 10 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 31 GPIO_ACTIVE_LOW>
-            ;
-    };
+    // kscan0 等の定義...
+    kscan0: kscan0 { ... };
 
-    split_inputs {
-        #address-cells = <1>;
-        #size-cells = <0>;
-
-        trackball_split: trackball_split@0 {
-            compatible = "zmk,input-split";
-            reg = <0>;
-        };
-    };
-
-    trackball_listener: trackball_listener {
-        compatible = "zmk,input-listener";
-        status = "disabled";
-        device = <&trackball>;
-    };
-};
-
-&default_transform {
-    col-offset = <6>;
-};
-
-// PMW3610設定 - SPI1を使用
-&spi1 {
-    status = "okay";
-    cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;  // P0.09 (NFC1.09)
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
-    pinctrl-names = "default", "sleep";
-    compatible = "nordic,nrf-spim";
-
-    trackball: pd@0 {
-        status = "okay";
-        compatible = "pixart,pmw3610";
-        reg = <0>;
-        spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        cpi = <600>;
-        evt-type = <INPUT_EV_REL>;
-        x-input-code = <INPUT_REL_X>;
-        y-input-code = <INPUT_REL_Y>;
-    };
-};
-
-  encoder_3: encoder_3 {
+    // 追加したコンポーネント（ルート直下）
+    encoder_3: encoder_3 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -81,7 +24,32 @@
         sensors = <&encoder_3>;
         triggers-per-rotation = <20>;
     };
+};
 
+// 既存の &default_transform 等
+&default_transform {
+    col-offset = <6>;
+};
+
+// SPI1の設定
+&spi1 {
+    status = "okay";
+    cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+    compatible = "nordic,nrf-spim";
+
+    trackball: pd@0 {
+        status = "okay";
+        compatible = "pixart,pmw3610";
+        reg = <0>;
+        // ... (以下略)
+    };
+};
+
+// 下記はルートの外側に独立したブロックとして置くか、
+// 必要であればルートノード内に入れる必要があります
 &trackball_split {
     device = <&trackball>;
 };
@@ -89,32 +57,10 @@
 &trackball_listener {
     status = "okay";
     input-processors = <&zip_temp_layer 1 400>;
-
     scroll {
         layers = <2>;
         input-processors = <&zip_xy_transform (INPUT_TRANSFORM_Y_INVERT)>, <&zip_xy_scaler 1 16>, <&zip_xy_to_scroll_mapper>;
     };
 };
 
-// SPI設定 (PMW3610用) - SPI1を使用してI2C0との競合を回避
-&pinctrl {
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                <NRF_PSEL(SPIM_MISO, 0, 4)>;
-        };
-    };
-
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                <NRF_PSEL(SPIM_MISO, 0, 4)>;
-            low-power-enable;
-        };
-    };
-};
-
-&xiao_serial { status = "disabled"; };
-&uart0 { status = "disabled";};
+// pinctrl 等の定義...
