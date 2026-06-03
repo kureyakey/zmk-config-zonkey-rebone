@@ -70,7 +70,7 @@
     pinctrl-names = "default", "sleep";
     compatible = "nordic,nrf-spim";
 
-    trackball: pd@0 {
+    trackball: trackball@0 {
         status = "okay";
         compatible = "pixart,pmw3610";
         reg = <0>;
