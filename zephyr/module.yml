@@ -1,4 +1,4 @@
-name: soa44
+name: zonkey
 build:
   settings:
     board_root: .
