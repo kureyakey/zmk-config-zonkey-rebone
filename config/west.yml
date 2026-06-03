@@ -6,7 +6,8 @@ manifest:
       url-base: https://github.com/kureyakey
     - name: caksoylar  # <-- new entry
       url-base: https://github.com/caksoylar
-      
+    - name: pukuhei
+      url-base: https://github.com/pukuhei
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -18,6 +19,9 @@ manifest:
     - name: zmk-rgbled-widget
       remote: caksoylar
       revision: v0.3
+    - name: zmk-tom-oled
+      remote: pukuhei
+      revision: main
       
   self:
     path: config
