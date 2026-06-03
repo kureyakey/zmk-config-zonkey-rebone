@@ -13,7 +13,7 @@
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&gpio0 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;  /* D6 = P0.30 */
         gpios
             =  <&gpio0 15 GPIO_ACTIVE_LOW>
             ,  <&gpio0 19 GPIO_ACTIVE_LOW>
@@ -61,7 +61,7 @@
 
 &spi1 {
     status = "okay";
-    cs-gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
+    cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;  /* CS: P0.29 (D5) */
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
@@ -72,7 +72,7 @@
         compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
-        irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        irq-gpios = <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;  /* MOTION: D7 (P0.31) */
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
@@ -95,16 +95,16 @@
 &pinctrl {
     spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                <NRF_PSEL(SPIM_MISO, 0, 4)>;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,   /* SCK: P1.13 */
+                <NRF_PSEL(SPIM_MOSI, 0, 10)>,      /* SDIO: D10 (P0.10) */
+                <NRF_PSEL(SPIM_MISO, 0, 10)>;      /* SDIO: D10 (P0.10) */
         };
     };
     spi1_sleep: spi1_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 5)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                <NRF_PSEL(SPIM_MISO, 0, 4)>;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 10)>,
+                <NRF_PSEL(SPIM_MISO, 0, 10)>;
             low-power-enable;
         };
     };

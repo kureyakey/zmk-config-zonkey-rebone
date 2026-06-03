@@ -14,14 +14,16 @@
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&xiao_d 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;  /* D6 = P0.30 */
         gpios
-            = <&xiao_d 1 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 2 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 3 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 6 GPIO_ACTIVE_HIGH>
-            , <&gpio0 10 GPIO_ACTIVE_HIGH>
-            , <&gpio0 9 GPIO_ACTIVE_HIGH>
+            = <&gpio0 11 (GPIO_ACTIVE_LOW)>                /* Row: XIAO_D 1 (P0.11) */
+            , <&gpio0 15 GPIO_ACTIVE_LOW>
+            , <&gpio0 19 GPIO_ACTIVE_LOW>
+            , <&gpio1 1 GPIO_ACTIVE_LOW>
+            , <&gpio0 9 GPIO_ACTIVE_LOW>
+            , <&gpio0 10 GPIO_ACTIVE_LOW>
+            , <&gpio0 31 GPIO_ACTIVE_LOW>
+            , <&gpio0 12 (GPIO_ACTIVE_LOW)>                /* COMB: D8 (P0.12) */
             ;
     };
 
@@ -35,26 +37,28 @@
         };
     };
 
-    left_encoder_bottom: left_encoder_bottom {
+    /* Encoder 1: P1.07, P1.05 */
+    left_encoder_0: left_encoder_0 {
         compatible = "alps,ec11";
-        a-gpios = <&xiao_d 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&xiao_d 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <12>;
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
+        steps = <80>;
         status = "okay";
     };
 
-    left_encoder_side: left_encoder_side {
+    /* Encoder 2 / ANO ENCODER: D10, D9 */
+    left_encoder_1: left_encoder_1 {
         compatible = "alps,ec11";
-        a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        a-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* D10 (P0.10) */
+        b-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; /* D9 (P0.11) */
         steps = <24>;
         status = "okay";
     };
 
     sensors: sensors {
         compatible = "zmk,keymap-sensors";
-        sensors = <&left_encoder_bottom &left_encoder_side>;
-        triggers-per-rotation = <10>;
+        sensors = <&left_encoder_0 &left_encoder_1>;
+        triggers-per-rotation = <20>;
     };
 
     trackball_listener: trackball_listener {
