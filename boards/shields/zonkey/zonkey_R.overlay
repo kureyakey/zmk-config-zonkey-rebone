@@ -8,7 +8,7 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        zmk,physical-layout = &default_layout;
+        zmk,physical-layout = &zonkey_physical_layout;
         /* Explicitly disable display for right side (peripheral) */
         zephyr,display = &no_display;
     };
@@ -30,7 +30,6 @@
             ;
     };
 
-    / {
     trackball_listener {
         status = "okay";
         compatible = "zmk,input-listener";
@@ -44,7 +43,6 @@
                 <&zip_scroll_scaler 2 5>;
         };
     };
-};
 
     encoder_3: encoder_3 {
         compatible = "alps,ec11";
@@ -78,7 +76,7 @@
             low-power-enable;
         };
     };
-
+};
 
 &xiao_serial { status = "disabled"; };
 
@@ -96,9 +94,9 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        evt-type = <2>;  // INPUT_EV_REL
-        x-input-code = <0>;  // INPUT_REL_X
-        y-input-code = <1>;  // INPUT_REL_Y
+        evt-type = <2>;  /* INPUT_EV_REL */
+        x-input-code = <0>;  /* INPUT_REL_X */
+        y-input-code = <1>;  /* INPUT_REL_Y */
         cpi = <400>;
         invert-y;
         force-awake;
