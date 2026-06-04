@@ -2,6 +2,11 @@
 #include <physical_layouts.dtsi>
 
 / {
+    chosen {
+        zmk,physical-layout = &default_layout;
+        zmk,battery = &non_lipo_battery;
+    };
+
     default_layout: default_layout {
         compatible = "zmk,physical-layout";
         display-name = "default";
