@@ -1,0 +1,7 @@
+modules/
+optional/
+zephyr/
+zmk/
+zmk-*/
+build*/
+.west/
