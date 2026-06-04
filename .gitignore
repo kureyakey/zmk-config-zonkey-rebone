@@ -1,8 +1,0 @@
-modules/
-optional/
-zephyr/*
-!zephyr/module.yml
-zmk/
-zmk-*/
-build*/
-.west/
