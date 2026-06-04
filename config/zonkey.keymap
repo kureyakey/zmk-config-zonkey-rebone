@@ -198,7 +198,7 @@
 &kp Q           &kp W             &kp E         &kp R                    &kp T               &kp A                        &kp Y          &kp U      &kp I    &kp O      &kp P
 &kp A           &kp S             &kp D         &kp F                    &kp G               &kp LS(LG(NUMBER_4))  &kp B  &kp B          &kp H      &kp J    &kp K      &kp L    &kp SQT
 &kp LEFT_SHIFT  &kp Z             &kp X         &lt_repeat 6 C           &lt_repeat 5 V      &lt_repeat 4 B        &kp C  &kp MINUS      &kp N      &kp M    &kp COMMA  &kp DOT  &kp SLASH
-&kp LCTRL       &kp LEFT_COMMAND  &kp LEFT_ALT  &lt_repeat 3 INT_HENKAN  &lt_repeat 2 SPACE  &lt_repeat 1 INT5     &kp D  &kp BACKSPACE  &kp ENTER  &kp DEL
+&lt_repeat 2 SPACE  &lt_repeat 1 INT5     &kp D  &kp BACKSPACE  &kp ENTER
             >;
 
             sensor-bindings =
@@ -211,7 +211,7 @@
 &kp CAPSLOCK    &kp GRAVE     &trans        &trans  &trans  &trans          &trans         &trans       &moA     &moB  &moC
 &kp TAB         &trans        &trans        &trans  &trans  &trans  &trans  &kp JP_EISU    &trans       &trans   &moD  &moE  &kp ENTER
 &kp LEFT_SHIFT  &trans        &trans        &trans  &trans  &trans  &trans  &trans         &kp JP_KANA  &moF     &moG  &moH  &kp ENTER
-&mt LCTL ESC    &kp LEFT_WIN  &kp LEFT_ALT  &trans  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER    &kp DEL
+  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER   
             >;
 
             sensor-bindings =
@@ -224,7 +224,7 @@
 &kp N1          &mo2          &kp N3        &kp N4  &kp N5  &trans          &mo6           &mo7       &mo8     &mo9            &mo0
 &trans          &trans        &trans        &trans  &trans  &trans  &trans  &trans         &trans     &trans   &trans          &kp UP_ARROW    &trans
 &kp LEFT_SHIFT  &trans        &trans        &trans  &trans  &trans  &trans  &trans         &trans     &trans   &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW
-&kp LCTRL       &kp LEFT_WIN  &kp LEFT_ALT  &trans  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER  &kp DEL
+  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER  
             >;
 
             sensor-bindings =
@@ -237,7 +237,7 @@
 &kp F1          &kp F2        &kp F3        &kp F4  &kp F5  &trans          &kp F6         &kp F7     &kp F8   &kp F9  &kp F10
 &kp F11         &kp F12       &trans        &trans  &trans  &trans  &trans  &trans         &trans     &trans   &trans  &trans   &trans
 &kp LEFT_SHIFT  &trans        &trans        &trans  &trans  &trans  &trans  &trans         &trans     &trans   &trans  &trans   &trans
-&kp LCTRL       &kp LEFT_WIN  &kp LEFT_ALT  &trans  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER  &kp DEL
+  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER  
             >;
 
             sensor-bindings =
@@ -250,7 +250,7 @@
 &bt BT_SEL 0    &bt BT_SEL 1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &trans          &kp MINUS      &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp PLUS
 &bt BT_CLR      &bt BT_CLR_ALL  &trans        &trans        &trans        &trans  &trans  &trans         &kp SLASH        &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp ASTERISK
 &kp LEFT_SHIFT  &trans          &trans        &trans        &trans        &trans  &trans  &kp DOT        &kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp EQUAL
-&kp LCTRL       &kp LEFT_WIN    &kp LEFT_ALT  &trans        &trans        &trans  &trans  &kp BACKSPACE  &kp ENTER        &kp DEL
+       &trans        &trans  &trans  &kp BACKSPACE  &kp ENTER        
             >;
 
             sensor-bindings = <&scroll_up_down>, <&inc_dec_kp LG(LS(Z)) LG(Z)>;
@@ -261,7 +261,7 @@
 &studio_unlock  &trans        &trans        &trans  &trans  &trans          &trans         &trans     &trans   &trans  &trans
 &trans          &trans        &trans        &trans  &trans  &trans  &trans  &trans         &trans     &trans   &trans  &trans  &trans
 &kp LEFT_SHIFT  &trans        &trans        &trans  &trans  &trans  &trans  &trans         &trans     &trans   &trans  &trans  &trans
-&kp LCTRL       &kp LEFT_WIN  &kp LEFT_ALT  &trans  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER  &kp DEL
+  &trans  &trans  &trans  &kp BACKSPACE  &kp ENTER  
             >;
 
             sensor-bindings = <&scroll_up_down>, <&inc_dec_kp DOWN UP_ARROW>;
@@ -272,7 +272,7 @@
 &trans  &trans  &trans  &trans  &trans  &trans          &trans  &trans  &trans    &trans    &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &mkp MB1  &mkp MB3  &mkp MB2  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans    &trans    &trans    &trans
-&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+  &trans  &trans  &trans  &trans  &trans  
             >;
 
             sensor-bindings = <&scroll_up_down>, <&inc_dec_kp RIGHT LEFT>;
