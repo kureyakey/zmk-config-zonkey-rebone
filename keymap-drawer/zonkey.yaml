@@ -38,16 +38,12 @@ layers:
   - ','
   - .
   - /
-  - LCTRL
-  - LEFT COMMAND
-  - LEFT ALT
-  - {t: INT HENKAN, h: '3'}
   - {t: SPACE, h: '2'}
   - {t: INT5, h: '1'}
   - D
   - BACKSPACE
   - ENTER
-  - DEL
+  - MUTE
   '1':
   - CAPSLOCK
   - '`'
@@ -86,16 +82,12 @@ layers:
   - {t: '''', s: '"'}
   - {t: \, s: '~'}
   - ENTER
-  - {t: ESC, h: LCTL}
-  - LEFT WIN
-  - LEFT ALT
-  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - BACKSPACE
   - ENTER
-  - DEL
+  - MUTE
   '2':
   - '1'
   - {t: '2', s: '@'}
@@ -134,16 +126,12 @@ layers:
   - LEFT ARROW
   - DOWN ARROW
   - RIGHT ARROW
-  - LCTRL
-  - LEFT WIN
-  - LEFT ALT
-  - {t: ▽, type: trans}
   - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - BACKSPACE
   - ENTER
-  - DEL
+  - MUTE
   '3':
   - F1
   - F2
@@ -182,16 +170,12 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - LCTRL
-  - LEFT WIN
-  - LEFT ALT
-  - {type: held}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - BACKSPACE
   - ENTER
-  - DEL
+  - MUTE
   '4':
   - {t: BT, h: '0'}
   - {t: BT, h: '1'}
@@ -230,16 +214,12 @@ layers:
   - KP 2
   - KP 3
   - '='
-  - LCTRL
-  - LEFT WIN
-  - LEFT ALT
-  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - BACKSPACE
   - ENTER
-  - DEL
+  - MUTE
   '5':
   - '&studio_unlock'
   - {t: ▽, type: trans}
@@ -278,16 +258,12 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - LCTRL
-  - LEFT WIN
-  - LEFT ALT
-  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - BACKSPACE
   - ENTER
-  - DEL
+  - MUTE
   '6':
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -331,8 +307,4 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - MUTE
