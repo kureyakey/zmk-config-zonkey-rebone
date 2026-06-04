@@ -8,7 +8,7 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
-        zmk,physical-layout = &zonkey_physical_layout;
+        zmk,physical-layout = &default_layout;
         /* Explicitly disable display for right side (peripheral) */
         zephyr,display = &no_display;
     };
