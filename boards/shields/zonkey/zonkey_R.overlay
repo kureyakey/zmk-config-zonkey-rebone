@@ -29,6 +29,16 @@
         >;
     };
 
+/ {
+    xy_clipper: xy_clipper {
+        compatible = "zmk,input-processor-xy-clipper";
+        #input-processor-cells = <0>;
+        threshold = <20>;
+        invert-x = <0>;
+        invert-y = <0>;
+    };
+};
+
     trackball_listener {
         status = "okay";
         compatible = "zmk,input-listener";
@@ -79,6 +89,23 @@
             low-power-enable;
         };
     };
+
+ spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+        };
+    };
+
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+            low-power-enable;
+        };
+    };
 };
 
 &xiao_serial { status = "disabled"; };
@@ -110,4 +137,10 @@
         force-awake;
         wakeup-source;
     };
+};
+// Override led_strip to set red color for right side
+&led_strip {
+    status = "okay";
+    chain-length = <1>;
+    // Pre-set WS2812 to red color (0xFF0000) for right side identification
 };
