@@ -3,32 +3,28 @@
 #include <dt-bindings/zmk/input_transform.h>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <physical_layouts.dtsi>
-#include "zonkey.dtsi"
+/* zonkey.dtsi はこのファイルで直接 include せず、ビルドシステムに任せます */
+
+/* 既存のルートノードの中身を上書き/追加する */
+&kscan0 {
+    compatible = "zmk,kscan-gpio-charlieplex";
+    interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
+    gpios = <
+        &gpio0 15 GPIO_ACTIVE_LOW
+        &gpio0 19 GPIO_ACTIVE_LOW
+        &gpio1 1 GPIO_ACTIVE_LOW
+        &gpio0 9 GPIO_ACTIVE_LOW
+        &gpio0 10 GPIO_ACTIVE_LOW
+        &gpio0 31 GPIO_ACTIVE_LOW
+    >;
+};
 
 / {
     chosen {
         zmk,kscan = &kscan0;
-        zmk,physical-layout = &default_layout;
-        zephyr,display = &no_display;
     };
 
-    no_display: no-display {
-        compatible = "zmk,no-display";
-    };
-
-    kscan0: kscan0 {
-        compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
-        gpios = <
-            &gpio0 15 GPIO_ACTIVE_LOW
-            &gpio0 19 GPIO_ACTIVE_LOW
-            &gpio1 1 GPIO_ACTIVE_LOW
-            &gpio0 9 GPIO_ACTIVE_LOW
-            &gpio0 10 GPIO_ACTIVE_LOW
-            &gpio0 31 GPIO_ACTIVE_LOW
-        >;
-    };
-
+    /* 新規ノードは / で囲む */
     xy_clipper: xy_clipper {
         compatible = "zmk,input-processor-xy-clipper";
         #input-processor-cells = <0>;
@@ -45,9 +41,7 @@
 
         scroller {
             layers = <5>;
-            input-processors =
-                <&zip_xy_to_scroll_mapper>,
-                <&zip_scroll_scaler 2 5>;
+            input-processors = <&zip_xy_to_scroll_mapper>, <&zip_scroll_scaler 2 5>;
         };
     };
 
@@ -66,45 +60,15 @@
     };
 };
 
-/* --- 以下はルートノードの外側（既存ノードのオーバーライド） --- */
-
+/* 既存ノードのオーバーライド */
 &pinctrl {
     spi0_default: spi0_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
-                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
-                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
-        };
+        group1 { psels = <NRF_PSEL(SPIM_SCK, 1, 13)>, <NRF_PSEL(SPIM_MOSI, 1, 14)>, <NRF_PSEL(SPIM_MISO, 1, 14)>; };
     };
-
     spi0_sleep: spi0_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
-                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
-                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
-            low-power-enable;
-        };
-    };
-
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
-        };
-    };
-
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
-            low-power-enable;
-        };
+        group1 { psels = <NRF_PSEL(SPIM_SCK, 1, 13)>, <NRF_PSEL(SPIM_MOSI, 1, 14)>, <NRF_PSEL(SPIM_MISO, 1, 14)>; low-power-enable; };
     };
 };
-
-&xiao_serial { status = "disabled"; };
 
 &spi0 {
     status = "okay";
