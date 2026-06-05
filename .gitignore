@@ -1,0 +1,9 @@
+# Local west workspace - do NOT commit
+modules/
+optional/
+zmk/
+zmk-*/
+zephyr/*
+!zephyr/module.yml
+build*/
+.west/
