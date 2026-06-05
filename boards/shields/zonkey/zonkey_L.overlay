@@ -110,8 +110,3 @@
         prechargep = <0x22>;
     };
 };
-
-&led_strip {
-    status = "okay";
-    chain-length = <1>;
-};
