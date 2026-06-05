@@ -82,13 +82,6 @@
         compatible = "zmk,non-lipo-battery";
         io-channels = <&adc 0>;
     };
-
-    led_power: led_power {
-        compatible = "zmk,ext-power-generic";
-        control-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>;
-        label = "LED Power Control";
-        init-delay-ms = <50>;
-    };
 };
 
 &adc { status = "okay"; };
