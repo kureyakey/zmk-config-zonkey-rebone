@@ -13,7 +13,7 @@
         led-strip = &led_strip;
     };
 
-    soa44_physical_layout: soa44_physical_layout {
+    zonkey_physical_layout: zonkey_physical_layout {
         compatible = "zmk,physical-layout";
         display-name = "Default";
         transform = <&default_transform>;
