@@ -5,6 +5,7 @@
 / {
     chosen {
         zmk,physical-layout = &default_layout;
+        zmk,matrix_transform = &default_transform;
         zmk,studio-rpc-uart = &uart0;
         zmk,battery = &non_lipo_battery;
         zmk,ws2812-widget = &led_strip;
@@ -14,6 +15,7 @@
         led-strip = &led_strip;
     };
 
+    /* 物理レイアウトの定義 */
     default_layout: default_layout {
         compatible = "zmk,physical-layout";
         display-name = "default";
@@ -76,16 +78,19 @@
         >;
     };
 
-    trackball_listener: trackball_listener {
-        compatible = "zmk,input-listener";
-        status = "disabled";
-    };
-
-    led_power: led_power {
-        compatible = "zmk,ext-power-generic";
-        control-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>;
-        label = "LED Power Control";
-        init-delay-ms = <50>;
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-charlieplex";
+        rows = <5>;
+        cols = <5>;
+        interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
+        gpios = <
+            &gpio0 15 GPIO_ACTIVE_LOW
+            &gpio0 19 GPIO_ACTIVE_LOW
+            &gpio1 1 GPIO_ACTIVE_LOW
+            &gpio0 9 GPIO_ACTIVE_LOW
+            &gpio0 10 GPIO_ACTIVE_LOW
+            &gpio0 31 GPIO_ACTIVE_LOW
+        >;
     };
 
     vbatt: vbatt {
@@ -96,15 +101,40 @@
         compatible = "zmk,non-lipo-battery";
         io-channels = <&adc 0>;
     };
-}; 
 
-/* ルートノードの終了後にオーバーライドを配置 */
-&adc { status = "okay"; };
-&spi0 {
-    status = "disabled";
-    trackball: trackball@0 { status = "disabled"; reg = <0>; };
+    led_power: led_power {
+        compatible = "zmk,ext-power-generic";
+        control-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>;
+        label = "LED Power Control";
+        init-delay-ms = <50>;
+    };
 };
+
+/* 周辺機器設定 */
+&adc { status = "okay"; };
+
+&spi0 { status = "disabled"; };
+
 &spi1 {
     status = "okay";
     compatible = "nordic,nrf-spim";
     pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
+
+    trackball: trackball@0 {
+        status = "okay";
+        compatible = "pixart,pmw3610";
+        reg = <0>;
+        spi-max-frequency = <2000000>;
+        irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        evt-type = <2>;
+        x-input-code = <0>;
+        y-input-code = <1>;
+        cpi = <400>;
+        invert-y;
+        force-awake;
+        wakeup-source;
+    };
+};
