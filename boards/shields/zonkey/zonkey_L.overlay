@@ -120,6 +120,20 @@
     };
 };
 
+&pinctrl {
+    /* 必要であれば、ここで強制的に空の定義に上書きします */
+    spi1_default: spi1_default {
+        group1 {
+            psels = <>;
+        };
+    };
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <>;
+        };
+    };
+};
+
 &spi1 {
     status = "disabled";
 };
