@@ -130,8 +130,9 @@
         compatible = "worldsemi,ws2812-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;
-        chain-length = <1>; 
-        color-mapping = <LED_COLOR_ID_GRB>;
+        chain-length = <1>;
+        /* 数値として GRB (0x010200) を指定するか、正しくインポートされた定数を使用する */
+        color-mapping = <0x010200>; 
     };
 };
 
