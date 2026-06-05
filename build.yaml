@@ -1,8 +1,8 @@
 include:
-  - board: xiao_ble
+  - board: xiao_ble_nrf52840  # ここを xiao_ble から変更
     shield: zonkey_L tom_oled rgbled_adapter
-  - board: xiao_ble
+  - board: xiao_ble_nrf52840  # ここを xiao_ble から変更
     shield: zonkey_R rgbled_adapter
     snippet: studio-rpc-usb-uart
-  - board: xiao_ble
+  - board: xiao_ble_nrf52840  # ここを xiao_ble から変更
     shield: settings_reset
