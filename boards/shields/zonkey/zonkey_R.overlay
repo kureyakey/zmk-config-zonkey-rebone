@@ -29,14 +29,12 @@
         >;
     };
 
-  / {
-      xy_clipper: xy_clipper {
-          compatible = "zmk,input-processor-xy-clipper";
-          #input-processor-cells = <0>;
-          threshold = <20>;
-          invert-x = <0>;
-          invert-y = <0>;
-        };
+    xy_clipper: xy_clipper {
+        compatible = "zmk,input-processor-xy-clipper";
+        #input-processor-cells = <0>;
+        threshold = <20>;
+        invert-x = <0>;
+        invert-y = <0>;
     };
 
     trackball_listener {
@@ -68,45 +66,42 @@
     };
 };
 
+/* --- 以下はルートノードの外側（既存ノードのオーバーライド） --- */
+
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            psels = <
-                NRF_PSEL(SPIM_SCK, 1, 13)
-                NRF_PSEL(SPIM_MOSI, 1, 14)
-                NRF_PSEL(SPIM_MISO, 1, 14)
-            >;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
         };
     };
 
     spi0_sleep: spi0_sleep {
         group1 {
-            psels = <
-                NRF_PSEL(SPIM_SCK, 1, 13)
-                NRF_PSEL(SPIM_MOSI, 1, 14)
-                NRF_PSEL(SPIM_MISO, 1, 14)
-            >;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
             low-power-enable;
         };
     };
 
-spi1_default: spi1_default {
+    spi1_default: spi1_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
         };
     };
 
     spi1_sleep: spi1_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
             low-power-enable;
         };
     };
-
 };
 
 &xiao_serial { status = "disabled"; };
@@ -135,9 +130,7 @@ spi1_default: spi1_default {
     };
 };
 
-// Override led_strip to set red color for right side
 &led_strip {
     status = "okay";
     chain-length = <1>;
-    // Pre-set WS2812 to red color (0xFF0000) for right side identification
 };
