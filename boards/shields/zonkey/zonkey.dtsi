@@ -1,8 +1,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/led/led.h>
 #include <physical_layouts.dtsi>
-#include <behaviors/rgbled_widget.dtsi>
-#include <behaviors/battery_history_request.dtsi>
 
 
 / {
