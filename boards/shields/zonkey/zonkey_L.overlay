@@ -54,34 +54,35 @@
     };
 };
 
+// Pin control for SPI1 (WS2812 LED)
 &pinctrl {
-    /* SPI0 用の設定 */
-    spi0_default: spi0_default {
+    spi1_default: spi1_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                <NRF_PSEL(SPIM_MISO, 0, 19)>;
         };
     };
-    spi0_sleep: spi0_sleep {
+
+    spi1_sleep: spi1_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                <NRF_PSEL(SPIM_MISO, 0, 19)>;
             low-power-enable;
         };
     };
 
-    /* SPI1 を無効化するための空定義 */
-    spi1_default: spi1_default { group1 { psels = <>; }; };
-    spi1_sleep: spi1_sleep { group1 { psels = <>; }; };
-    
     /* I2C1 用の設定 */
-    i2c1_default: i2c1_default {
+    i2c0_default: i2c0_default {
         group1 { psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>; };
     };
-    i2c1_sleep: i2c1_sleep {
+    i2c0_sleep: i2c0_sleep {
         group1 { psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>; low-power-enable; };
     };
 };
 
-&i2c1 {
+&i2c0 {
     status = "okay";
     pinctrl-0 = <&i2c1_default>;
     pinctrl-1 = <&i2c1_sleep>;
@@ -94,7 +95,7 @@
     };
 };
 
-&spi0 {
+&spi1 {
     status = "okay";
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
@@ -110,12 +111,11 @@
     };
 };
 
-&spi1 {
-    status = "disabled";
-    pinctrl-0 = <>;
-    pinctrl-1 = <>;
-    pinctrl-names = "";
+// Override led_strip to set blue color
+&led_strip {
+    status = "okay";
+    chain-length = <1>;
+    // Pre-set WS2812 to blue color (0x0000FF)
 };
-
 &xiao_serial { status = "disabled"; };
 &uart0 { status = "disabled"; };
