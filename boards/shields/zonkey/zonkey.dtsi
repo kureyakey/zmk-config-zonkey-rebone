@@ -6,6 +6,7 @@
     chosen {
         zmk,physical-layout = &default_layout;
         zmk,battery = &non_lipo_battery;
+        zmk,ws2812-widget = &led_strip;
     };
 
     aliases {
