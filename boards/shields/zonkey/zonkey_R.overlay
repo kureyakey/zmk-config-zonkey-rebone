@@ -1,58 +1,38 @@
-#include <dt-bindings/zmk/input_transform.h>
-#include <dt-bindings/input/input-event-codes.h>
+#include <dt-bindings/zmk/matrix_transform.h>
 #include <input/processors.dtsi>
+#include <dt-bindings/zmk/input_transform.h>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+#include <physical_layouts.dtsi>
 #include "zonkey.dtsi"
-
-/* ============================================================
- * RIGHT SIDE
- *   - Charlieplex: 6 GPIO + 1 interrupt
- *   - SPI0: PMW3610 trackball
- *   - EC11 encoder x1
- *   - SPI1 (LED): handled by rgbled_adapter shield
- * ============================================================ */
-
-&default_transform {
-    col-offset = <6>;
-};
 
 / {
     chosen {
         zmk,kscan = &kscan0;
+        zmk,physical-layout = &default_layout;
+        zephyr,display = &no_display;
     };
 
-    /* Charlieplex - right side (6 gpios) */
+    no_display: no-display {
+        compatible = "zmk,no-display";
+    };
+
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        wakeup-source;
-        interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        gpios
-            = <&gpio0 15 GPIO_ACTIVE_LOW>
-            , <&gpio0 19 GPIO_ACTIVE_LOW>
-            , <&gpio1  1 GPIO_ACTIVE_LOW>
-            , <&gpio0  9 GPIO_ACTIVE_LOW>
-            , <&gpio0 10 GPIO_ACTIVE_LOW>
-            , <&gpio0 31 GPIO_ACTIVE_LOW>
-            ;
+        interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
+        gpios = <
+            &gpio0 15 GPIO_ACTIVE_LOW
+            &gpio0 19 GPIO_ACTIVE_LOW
+            &gpio1 1 GPIO_ACTIVE_LOW
+            &gpio0 9 GPIO_ACTIVE_LOW
+            &gpio0 10 GPIO_ACTIVE_LOW
+            &gpio0 31 GPIO_ACTIVE_LOW
+        >;
     };
 
-    /* EC11 encoder */
-    encoder_r: encoder_r {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <80>;
+    /* トラックボールのリスナー設定 */
+    trackball_listener {
         status = "okay";
-    };
-
-    sensors: sensors {
-        compatible = "zmk,keymap-sensors";
-        sensors = <&encoder_r>;
-        triggers-per-rotation = <20>;
-    };
-
-    /* Trackball input listener */
-    &trackball_listener {
-        status = "okay";
+        compatible = "zmk,input-listener";
         device = <&trackball>;
         input-processors = <&zip_temp_layer 1 700>;
 
@@ -63,29 +43,51 @@
                 <&zip_scroll_scaler 2 5>;
         };
     };
+
+    encoder_3: encoder_3 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "okay";
+    };
+
+    sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&encoder_3>;
+        triggers-per-rotation = <20>;
+    };
 };
 
-/* ============================================================
- * SPI0 pinctrl - PMW3610 trackball
- *   SCK:  P0.05 (D5)
- *   MOSI: P0.04 (D4)
- *   MISO: P0.02 (D0)  <- must differ from MOSI
- *   CS:   P0.03 (D1)
- *   IRQ:  P1.12 (D7)
- * ============================================================ */
 &pinctrl {
+    /* SPI0: トラックボール用 */
     spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK,  0, 5)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 2)>;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
         };
     };
     spi0_sleep: spi0_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK,  0, 5)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 4)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 2)>;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
+            low-power-enable;
+        };
+    };
+
+    /* SPI1: LED用 */
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>;
+        };
+    };
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>;
             low-power-enable;
         };
     };
@@ -93,13 +95,14 @@
 
 &xiao_serial { status = "disabled"; };
 
+/* SPI0: トラックボール */
 &spi0 {
     status = "okay";
     compatible = "nordic,nrf-spim";
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+    cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
 
     trackball: trackball@0 {
         status = "okay";
@@ -107,9 +110,33 @@
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        evt-type = <2>;
+        x-input-code = <0>;
+        y-input-code = <1>;
         cpi = <400>;
+        irq-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW)>; /* 別名 motion-gpios の場合も */
+        motion-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW)>;
         invert-y;
         force-awake;
         wakeup-source;
+    };
+};
+
+/* SPI1: LED */
+&spi1 {
+    status = "okay";
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        chain-length = <1>;
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
