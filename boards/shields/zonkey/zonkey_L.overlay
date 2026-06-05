@@ -7,22 +7,30 @@
 / {
     chosen {
         zmk,kscan = &kscan0;
+        zmk,matrix_transform = &default_transform;
         zmk,physical-layout = &default_layout;
         zephyr,display = &oled;
     };
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
+        /* Charlieplexingではマトリクスの最大サイズを定義する必要があります */
+        rows = <5>;
+        cols = <5>;
         interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;
-        gpios = <&xiao_d 7 GPIO_ACTIVE_LOW>,
-                <&gpio0 15 GPIO_ACTIVE_LOW>,
-                <&gpio0 19 GPIO_ACTIVE_LOW>,
-                <&gpio1 1 GPIO_ACTIVE_LOW>,
-                <&gpio0 9 GPIO_ACTIVE_LOW>,
-                <&gpio0 10 GPIO_ACTIVE_LOW>,
-                <&gpio0 31 GPIO_ACTIVE_LOW>;
+
+        gpios = <
+            &xiao_d 7 GPIO_ACTIVE_LOW
+            &gpio0 15 GPIO_ACTIVE_LOW
+            &gpio0 19 GPIO_ACTIVE_LOW
+            &gpio1 1 GPIO_ACTIVE_LOW
+            &gpio0 9 GPIO_ACTIVE_LOW
+            &gpio0 10 GPIO_ACTIVE_LOW
+            &gpio0 31 GPIO_ACTIVE_LOW
+        >;
     };
 
+    /* エンコーダとセンサーの設定 */
     left_encoder_0: left_encoder_0 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -52,7 +60,7 @@
     };
 };
 
-/* 既存ノードの拡張と設定 */
+/* I2C / OLED設定 */
 &pinctrl {
     i2c1_default: i2c1_default {
         group1 {
@@ -92,12 +100,6 @@
     };
 };
 
+/* 不要なUARTを無効化 */
 &xiao_serial { status = "disabled"; };
 &uart0 { status = "disabled"; };
-
-
-/* &led_strip {
-    status = "okay";
-    chain-length = <1>;
-};
-*/
