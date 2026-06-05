@@ -54,40 +54,8 @@
     };
 };
 
-/* I2C設定 */
 &pinctrl {
-    i2c1_default: i2c1_default {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>;
-        };
-    };
-    i2c1_sleep: i2c1_sleep {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>;
-            low-power-enable;
-        };
-    };
-};
-
-&i2c1 {
-    status = "okay";
-    compatible = "nordic,nrf-twi";
-    pinctrl-0 = <&i2c1_default>;
-    pinctrl-1 = <&i2c1_sleep>;
-    pinctrl-names = "default", "sleep";
-    clock-frequency = <100000>;
-    oled: ssd1306@3c {
-        compatible = "solomon,ssd1306fb";
-        reg = <0x3c>;
-        width = <128>; height = <32>;
-        segment-offset = <0>; page-offset = <0>;
-        display-offset = <0>; multiplex-ratio = <31>;
-        com-sequential; inversion-on; prechargep = <0x22>;
-    };
-};
-
-/* SPI設定: spi0 を LED 用に割り当て */
-&pinctrl {
+    /* SPI0 用の設定 */
     spi0_default: spi0_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
@@ -99,16 +67,38 @@
             low-power-enable;
         };
     };
+
+    /* SPI1 を無効化するための空定義 */
+    spi1_default: spi1_default { group1 { psels = <>; }; };
+    spi1_sleep: spi1_sleep { group1 { psels = <>; }; };
+    
+    /* I2C1 用の設定 */
+    i2c1_default: i2c1_default {
+        group1 { psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>; };
+    };
+    i2c1_sleep: i2c1_sleep {
+        group1 { psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>; low-power-enable; };
+    };
+};
+
+&i2c1 {
+    status = "okay";
+    pinctrl-0 = <&i2c1_default>;
+    pinctrl-1 = <&i2c1_sleep>;
+    pinctrl-names = "default", "sleep";
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        width = <128>; height = <32>;
+        /* ...省略... */
+    };
 };
 
 &spi0 {
     status = "okay";
-    compatible = "nordic,nrf-spim";
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-
-    /* ラベルを新規定義せず、既存の led_strip を上書き */
     led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
         reg = <0>;
@@ -120,9 +110,11 @@
     };
 };
 
-/* SPI1 を完全に無効化して競合を回避 */
 &spi1 {
     status = "disabled";
+    pinctrl-0 = <>;
+    pinctrl-1 = <>;
+    pinctrl-names = "";
 };
 
 &xiao_serial { status = "disabled"; };
