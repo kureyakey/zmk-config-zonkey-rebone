@@ -29,16 +29,7 @@
         >;
     };
 
-/ {
-    xy_clipper: xy_clipper {
-        compatible = "zmk,input-processor-xy-clipper";
-        #input-processor-cells = <0>;
-        threshold = <20>;
-        invert-x = <0>;
-        invert-y = <0>;
-    };
-};
-
+    /* トラックボールのリスナー設定 */
     trackball_listener {
         status = "okay";
         compatible = "zmk,input-listener";
@@ -69,40 +60,34 @@
 };
 
 &pinctrl {
+    /* SPI0: トラックボール用 */
     spi0_default: spi0_default {
         group1 {
-            psels = <
-                NRF_PSEL(SPIM_SCK, 1, 13)
-                NRF_PSEL(SPIM_MOSI, 1, 14)
-                NRF_PSEL(SPIM_MISO, 1, 14)
-            >;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
         };
     };
-
     spi0_sleep: spi0_sleep {
         group1 {
-            psels = <
-                NRF_PSEL(SPIM_SCK, 1, 13)
-                NRF_PSEL(SPIM_MOSI, 1, 14)
-                NRF_PSEL(SPIM_MISO, 1, 14)
-            >;
+            psels = <NRF_PSEL(SPIM_SCK, 1, 13)>,
+                    <NRF_PSEL(SPIM_MOSI, 1, 14)>,
+                    <NRF_PSEL(SPIM_MISO, 1, 14)>;
             low-power-enable;
         };
     };
 
- spi1_default: spi1_default {
+    /* SPI1: LED用 */
+    spi1_default: spi1_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>;
         };
     };
-
     spi1_sleep: spi1_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>;
             low-power-enable;
         };
     };
@@ -110,6 +95,7 @@
 
 &xiao_serial { status = "disabled"; };
 
+/* SPI0: トラックボール */
 &spi0 {
     status = "okay";
     compatible = "nordic,nrf-spim";
@@ -120,27 +106,35 @@
 
     trackball: trackball@0 {
         status = "okay";
-
-        compatible = "pixart,pmw3610";   // ★ここ重要（alt禁止）
-
+        compatible = "pixart,pmw3610";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio1 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-
         evt-type = <2>;
         x-input-code = <0>;
         y-input-code = <1>;
-
         cpi = <400>;
-
         invert-y;
         force-awake;
         wakeup-source;
     };
 };
-// Override led_strip to set red color for right side
-&led_strip {
+
+/* SPI1: LED */
+&spi1 {
     status = "okay";
-    chain-length = <1>;
-    // Pre-set WS2812 to red color (0xFF0000) for right side identification
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        chain-length = <1>;
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+    };
 };
