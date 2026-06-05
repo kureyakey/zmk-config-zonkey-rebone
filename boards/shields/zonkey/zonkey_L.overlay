@@ -14,7 +14,7 @@
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;  /* D6 = P0.30 */
+        interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;
         gpios
             =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
             ,  <&gpio0 15 GPIO_ACTIVE_LOW>
@@ -26,17 +26,15 @@
             ;
     };
 
-
-    /* Encoder 1: P1.07, P1.05 */
+    /* ... エンコーダー設定はそのまま ... */
     left_encoder_0: left_encoder_0 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
-        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
         status = "okay";
     };
 
-    /* Encoder 2 / ANO ENCODER: D10, D9 */
     left_encoder_1: left_encoder_1 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -50,29 +48,23 @@
         sensors = <&left_encoder_0 &left_encoder_1>;
         triggers-per-rotation = <20>;
     };
-};
 
-/ {
     encoder_sw: encoder_sw {
         compatible = "zmk,kscan-gpio-direct";
-        label = "ENCODER_SW";
-        input-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // XiaoのD1ピンに接続した場合
+        input-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
 };
 
-/* I2C設定 (OLED用) */
+/* I2C設定 (OLED用: そのまま使用) */
 &pinctrl {
     i2c1_default: i2c1_default {
         group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 5)>;
+            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>;
         };
     };
-
     i2c1_sleep: i2c1_sleep {
         group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 5)>;
+            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>;
             low-power-enable;
         };
     };
@@ -84,49 +76,52 @@
     pinctrl-0 = <&i2c1_default>;
     pinctrl-1 = <&i2c1_sleep>;
     pinctrl-names = "default", "sleep";
-
     clock-frequency = <100000>;
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
-        width = <128>;
-        height = <32>;
-        segment-offset = <0>;
-        page-offset = <0>;
-        display-offset = <0>;
-        multiplex-ratio = <31>;
-        com-sequential;
-        inversion-on;
-        prechargep = <0x22>;
+        width = <128>; height = <32>;
+        segment-offset = <0>; page-offset = <0>;
+        display-offset = <0>; multiplex-ratio = <31>;
+        com-sequential; inversion-on; prechargep = <0x22>;
     };
 };
 
-// Pin control for SPI1 (WS2812 LED)
+/* SPI設定を spi0 に移動して競合を回避 */
 &pinctrl {
-    spi1_default: spi1_default {
+    spi0_default: spi0_default {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
         };
     };
-
-    spi1_sleep: spi1_sleep {
+    spi0_sleep: spi0_sleep {
         group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
             low-power-enable;
         };
     };
 };
 
-// Override led_strip to set blue color
-&led_strip {
+&spi0 {
     status = "okay";
-    chain-length = <1>;
-    // Pre-set WS2812 to blue color (0x0000FF)
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        chain-length = <1>;
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+    };
 };
 
+/* 旧SPI1設定を無効化 */
+&spi1 { status = "disabled"; };
+
 &xiao_serial { status = "disabled"; };
-&uart0 { status = "disabled";};
+&uart0 { status = "disabled"; };
