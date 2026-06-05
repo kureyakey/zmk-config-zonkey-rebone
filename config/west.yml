@@ -10,6 +10,8 @@ manifest:
       url-base: https://github.com/badjeff
     - name: iwk7273
       url-base: https://github.com/iwk7273
+    - name: pukuhei
+      url-base: https://github.com/pukuhei
   projects:
     - name: zmk
       remote: zmkfirmware
