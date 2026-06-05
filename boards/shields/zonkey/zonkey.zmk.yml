@@ -3,6 +3,6 @@ id: zonkey
 name: ZONKEY
 type: shield
 url: https://github.com/kureyakey/zmk-config-zonkey_reBONE
-requires: [xiao_ble]
+requires: [seeed_xiao]
 features:
   - keys
