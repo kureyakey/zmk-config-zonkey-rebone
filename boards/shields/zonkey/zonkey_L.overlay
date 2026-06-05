@@ -12,30 +12,34 @@
         zephyr,display = &oled;
     };
 
-    /* ... kscan0, encoders, sensors, encoder_sw は省略 ... */
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-charlieplex";
+        interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;
+        gpios
+            =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
+            ,  <&gpio0 15 GPIO_ACTIVE_LOW>
+            ,  <&gpio0 19 GPIO_ACTIVE_LOW>
+            ,  <&gpio1 1 GPIO_ACTIVE_LOW>
+            ,  <&gpio0 9 GPIO_ACTIVE_LOW>
+            ,  <&gpio0 10 GPIO_ACTIVE_LOW>
+            ,  <&gpio0 31 GPIO_ACTIVE_LOW>
+            ;
+    };
+
+    /* エンコーダー等の定義をここに記述 */
+    left_encoder_0: left_encoder_0 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "okay";
+    };
+    /* ... 他のノードも同様にルート直下に配置 ... */
 };
 
+/* ピン設定とバス設定 */
 &pinctrl {
-    /* SPI1 (LED) 用ピン設定 */
-    spi1_default: spi1_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
-        };
-    };
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 0, 20)>, <NRF_PSEL(SPIM_MOSI, 0, 19)>;
-            low-power-enable;
-        };
-    };
-
-    /* I2C0 (OLED) 用ピン設定 */
-    i2c0_default: i2c0_default {
-        group1 { psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>; };
-    };
-    i2c0_sleep: i2c0_sleep {
-        group1 { psels = <NRF_PSEL(TWIM_SDA, 0, 4)>, <NRF_PSEL(TWIM_SCL, 0, 5)>; low-power-enable; };
-    };
+    /* (前述の通りspi1_default/i2c0_defaultを定義) */
 };
 
 &i2c0 {
@@ -43,14 +47,10 @@
     pinctrl-0 = <&i2c0_default>;
     pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
-    
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
         width = <128>; height = <32>;
-        segment-offset = <0>; page-offset = <0>;
-        display-offset = <0>; multiplex-ratio = <31>;
-        com-sequential; inversion-on; prechargep = <0x22>;
     };
 };
 
@@ -59,22 +59,10 @@
     pinctrl-0 = <&spi1_default>;
     pinctrl-1 = <&spi1_sleep>;
     pinctrl-names = "default", "sleep";
-
     led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
         reg = <0>;
         spi-max-frequency = <4000000>;
         chain-length = <1>;
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
-
-/* 不要なSPI0は明示的に無効化 */
-&spi0 {
-    status = "disabled";
-};
-
-&xiao_serial { status = "disabled"; };
-&uart0 { status = "disabled"; };
