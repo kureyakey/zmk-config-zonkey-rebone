@@ -7,7 +7,7 @@
 
 / {
     chosen {
-        zmk,physical-layout = &zonkey_physical_layout;
+        zmk,physical-layout = &layout_zonkey;
         zmk,battery = &non_lipo_battery;
         zmk,ws2812-widget = &led_strip;
     };
@@ -16,9 +16,9 @@
         led-strip = &led_strip;
     };
 
-    zonkey_physical_layout: zonkey_physical_layout {
+      layout_zonkey: layout_zonkey {
         compatible = "zmk,physical-layout";
-        display-name = "Default";
+        display-name = "zonkey";
         transform = <&default_transform>;
         kscan = <&kscan0>;
 
@@ -82,7 +82,15 @@
             RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
         >;
     };
- 
+
+    position_map {
+        compatible = "zmk,physical-layout-position-map";
+
+        layout_zonkey {
+            physical-layout = <&layout_zonkey>;
+            positions = <>;
+        };
+    };
 
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
@@ -140,7 +148,7 @@
     };
 };
 
-    // Encoders
+       // Encoders
     left_encoder_0: left_encoder_0 {
      compatible = "alps,ec11";
      status = "disabled";
@@ -151,8 +159,13 @@
       status = "disabled";
    };
 
+    right_encoder_3: right_encoder_3 {
+      compatible = "alps,ec11";
+      status = "disabled";
+   };
+
    sensors: sensors {
       compatible = "zmk,keymap-sensors";
-      sensors = <&left_encoder &right_encoder>;
+      sensors = <&left_encoder_0 &left_encoder_1 &right_encoder_3>;
    };
 };
