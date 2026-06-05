@@ -5,6 +5,11 @@
 #include <physical_layouts.dtsi>
 
 / {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,studio-rpc-uart = &uart0; /* Studio用: UART0を割り当て */
+    };
+
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
@@ -18,11 +23,6 @@
             &gpio0 31 GPIO_ACTIVE_LOW
         >;
     };
-
-    chosen {
-        zmk,kscan = &kscan0;
-    };
-
 
     xy_clipper: xy_clipper {
         compatible = "zmk,input-processor-xy-clipper";
@@ -59,16 +59,7 @@
     };
 };
 
-/* 既存ノードのオーバーライド */
-&pinctrl {
-    spi0_default: spi0_default {
-        group1 { psels = <NRF_PSEL(SPIM_SCK, 1, 13)>, <NRF_PSEL(SPIM_MOSI, 1, 14)>, <NRF_PSEL(SPIM_MISO, 1, 14)>; };
-    };
-    spi0_sleep: spi0_sleep {
-        group1 { psels = <NRF_PSEL(SPIM_SCK, 1, 13)>, <NRF_PSEL(SPIM_MOSI, 1, 14)>, <NRF_PSEL(SPIM_MISO, 1, 14)>; low-power-enable; };
-    };
-};
-
+/* SPI / Trackball設定 */
 &spi0 {
     status = "okay";
     compatible = "nordic,nrf-spim";
@@ -93,17 +84,7 @@
     };
 };
 
-/* 既存の記述の最後にある &led_strip ブロックを以下に置き換える */
-
-/ {
-    /* led_strip が見つからない場合は、ここで定義するか status を確認する */
-};
-
-/* もし led_strip が別の名前で定義されている可能性がある場合 */
-/* 一旦コメントアウトして、ビルドが通るか確認してください */
-/*
-&led_strip {
+/* LED Stripの処理 */
+&ws2812 {
     status = "okay";
-    chain-length = <1>;
 };
-*/
