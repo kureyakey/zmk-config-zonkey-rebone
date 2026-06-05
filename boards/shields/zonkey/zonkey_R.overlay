@@ -8,6 +8,8 @@
     /* ここでまず kscan0 を定義する */
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
+        rows = <12>; /* マトリクスの行数に合わせて調整してください */
+        cols = <7>; /* マトリクスの列数に合わせて調整してください */
         interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
         gpios = <
             &gpio0 15 GPIO_ACTIVE_LOW
