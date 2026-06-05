@@ -10,6 +10,8 @@ manifest:
       url-base: https://github.com/gohanda11
     - name: pukuhei
       url-base: https://github.com/pukuhei
+    - name: iwk7273
+      url-base: https://github.com/iwk7273
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -27,6 +29,11 @@ manifest:
     - name: zmk-tom-oled
       remote: pukuhei
       revision: main
-      
+    - name: zmk-feature-xy_clipper
+      remote: iwk7273
+      revision: main
+    - name: zmk-ws2812-driver
+      remote: gohanda11
+      revision: main
   self:
     path: config
