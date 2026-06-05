@@ -107,46 +107,12 @@
         // Disable default battery monitoring
         status = "disabled";
     };
-    non_lipo_battery: non_lipo_battery {
-        compatible = "zmk,non-lipo-battery";
-        io-channels = <&adc 0>;
-    };
 
+non_lipo_battery: non_lipo_battery {
+    compatible = "zmk,non-lipo-battery";
+    io-channels = <&adc 0>;
 };
 
-&adc {
-    status = "okay";
-};
-
-&spi0 {
-    status = "disabled";
-
-    trackball: trackball@0 {
-        status = "disabled";
-        reg = <0>;
-    };
-};
-
-// SPI1 for WS2812 LED control
-&spi1 {
-    status = "okay";
-    compatible = "nordic,nrf-spim";
-    pinctrl-0 = <&spi1_default>;
-    pinctrl-1 = <&spi1_sleep>;
-    pinctrl-names = "default", "sleep";
-
-    led_strip: ws2812@0 {
-        compatible = "worldsemi,ws2812-spi";
-        reg = <0>;
-        spi-max-frequency = <4000000>;
-        chain-length = <1>;
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
-    };
-};
-
-    // Encoders
 left_encoder_0: left_encoder_0 {
     compatible = "alps,ec11";
     status = "disabled";
@@ -169,4 +135,6 @@ sensors: sensors {
         &left_encoder_1
         &right_encoder_3
     >;
+};
+
 };
