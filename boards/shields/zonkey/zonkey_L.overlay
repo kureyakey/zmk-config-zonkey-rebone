@@ -26,7 +26,6 @@
             ;
     };
 
-    /* ... エンコーダー設定はそのまま ... */
     left_encoder_0: left_encoder_0 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -55,7 +54,7 @@
     };
 };
 
-/* I2C設定 (OLED用: そのまま使用) */
+/* I2C設定 */
 &pinctrl {
     i2c1_default: i2c1_default {
         group1 {
@@ -87,7 +86,7 @@
     };
 };
 
-/* SPI設定を spi0 に移動して競合を回避 */
+/* SPI設定: spi0 を LED 用に割り当て */
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
@@ -109,6 +108,7 @@
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
 
+    /* ラベルを新規定義せず、既存の led_strip を上書き */
     led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
         reg = <0>;
@@ -120,20 +120,7 @@
     };
 };
 
-&pinctrl {
-    /* 必要であれば、ここで強制的に空の定義に上書きします */
-    spi1_default: spi1_default {
-        group1 {
-            psels = <>;
-        };
-    };
-    spi1_sleep: spi1_sleep {
-        group1 {
-            psels = <>;
-        };
-    };
-};
-
+/* SPI1 を完全に無効化して競合を回避 */
 &spi1 {
     status = "disabled";
 };
