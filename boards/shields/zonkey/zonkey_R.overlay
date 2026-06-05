@@ -52,7 +52,7 @@ kscan0: kscan0 {
     };
 };
 
-encoder_3: encoder_3 {
+right_encoder_3: right_encoder_3 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
