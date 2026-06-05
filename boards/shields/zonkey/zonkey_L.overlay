@@ -4,51 +4,48 @@
 #include <physical_layouts.dtsi>
 #include "zonkey.dtsi"
 
-
 / {
     chosen {
         zephyr,display = &oled;
     };
 
-kscan0: kscan0 {
+    kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&gpio0 30 (GPIO_ACTIVE_LOW)>;  /* D6 = P0.30 */
-        gpios
-            =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
-            ,  <&gpio0 15 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 19 GPIO_ACTIVE_LOW>
-            ,  <&gpio1 1 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 9 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 10 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 31 GPIO_ACTIVE_LOW>
-            ;
+        interrupt-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
+
+        gpios =
+            <&xiao_d 7 GPIO_ACTIVE_LOW>,
+            <&gpio0 15 GPIO_ACTIVE_LOW>,
+            <&gpio0 19 GPIO_ACTIVE_LOW>,
+            <&gpio1 1 GPIO_ACTIVE_LOW>,
+            <&gpio0 9 GPIO_ACTIVE_LOW>,
+            <&gpio0 10 GPIO_ACTIVE_LOW>,
+            <&gpio0 31 GPIO_ACTIVE_LOW>;
     };
 
-/* Encoder 1: P1.07, P1.05 */
-    left_encoder_0: left_encoder_0 {
-        compatible = "alps,ec11";
-        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
-        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
-        steps = <80>;
-        status = "okay";
+    encoder_sw: encoder_sw {
+        compatible = "zmk,kscan-gpio-direct";
+        input-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
+};
 
-    /* Encoder 2 / ANO ENCODER: D10, D9 */
-    left_encoder_1: left_encoder_1 {
-    compatible = "alps,ec11";
+/* Encoder 1 */
+&left_encoder_0 {
+    a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    steps = <80>;
+    status = "okay";
+};
+
+/* Encoder 2 */
+&left_encoder_1 {
     a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     steps = <24>;
     status = "okay";
 };
 
-encoder_sw: encoder_sw {
-    compatible = "zmk,kscan-gpio-direct";
-    label = "ENCODER_SW";
-    input-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-};
-
-&pinctrl {    
+&pinctrl {
     i2c0_default: i2c0_default {
         group1 {
             psels = <NRF_PSEL(TWIM_SDA, 1, 14)>,
@@ -56,7 +53,7 @@ encoder_sw: encoder_sw {
             bias-pull-up;
         };
     };
-      
+
     i2c0_sleep: i2c0_sleep {
         group1 {
             psels = <NRF_PSEL(TWIM_SDA, 1, 14)>,
@@ -65,58 +62,56 @@ encoder_sw: encoder_sw {
             bias-pull-up;
         };
     };
-};
 
-
-&i2c0 {
-    status = "okay";
-    compatible = "nordic,nrf-twi";
-    pinctrl-0 = <&i2c1_default>;
-    pinctrl-1 = <&i2c1_sleep>;
-    pinctrl-names = "default", "sleep";
-    clock-frequency = <100000>; 
-    
-    oled: ssd1306@3c {
-        compatible = "solomon,ssd1306fb";
-        reg = <0x3c>;
-        width = <128>;
-        height = <32>;
-        segment-offset = <0>;
-        page-offset = <0>;
-        display-offset = <0>;
-        multiplex-ratio = <31>;
-        segment-remap;
-        com-invdir;
-        com-sequential;
-        inversion-on;
-        prechargep = <0x22>;
-    };
-};
-
-
-// Pin control for SPI1 (WS2812 LED)
-&pinctrl {
     spi1_default: spi1_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
         };
     };
 
     spi1_sleep: spi1_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
             low-power-enable;
         };
     };
 };
 
-// Override led_strip to set blue color
+&i2c0 {
+    status = "okay";
+
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    clock-frequency = <100000>;
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+
+        width = <128>;
+        height = <32>;
+
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <31>;
+
+        segment-remap;
+        com-invdir;
+        com-sequential;
+        inversion-on;
+
+        prechargep = <0x22>;
+    };
+};
+
 &led_strip {
     status = "okay";
     chain-length = <1>;
-    // Pre-set WS2812 to blue color (0x0000FF)
 };
