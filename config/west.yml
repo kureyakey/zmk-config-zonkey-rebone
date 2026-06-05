@@ -12,6 +12,8 @@ manifest:
       url-base: https://github.com/iwk7273
     - name: pukuhei
       url-base: https://github.com/pukuhei
+    - name: caksoylar
+      url-base: https://github.com/caksoylar
   projects:
     - name: zmk
       remote: zmkfirmware
@@ -31,6 +33,9 @@ manifest:
       revision: main
     - name: zmk-tom-oled
       remote: pukuhei
+      revision: main
+   - name: zmk-rgbled-widget
+      remote: caksoylar
       revision: main
   self:
     path: config
