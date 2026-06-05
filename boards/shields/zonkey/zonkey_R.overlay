@@ -7,6 +7,10 @@
     col-offset = <6>;
 };
 
+/ {
+    chosen {
+    };
+
 kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         interrupt-gpios = <&gpio1 11 (GPIO_ACTIVE_LOW)>;
