@@ -6,9 +6,14 @@
 
 / {
     chosen {
-        /* rgbled_adapterの最新仕様に合わせて &led_strip から &leds に修正 */
+        /* ここは元のままでOKですが、外部モジュールのためにダミーの実体を下で作ります */
         zephyr,light-strip = &leds;
         zephyr,display = &oled;
+    };
+
+    led_strip: dummy_led {
+        compatible = "demo-led-strip";
+        chain-length = <0>;
     };
 
     kscan0 {
@@ -16,7 +21,7 @@
         interrupt-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
 
         gpios =
-            <&gpio0 3 GPIO_ACTIVE_LOW>,   /* xiao_d 7 を gpio0 3 に修正 */
+            <&gpio0 3 GPIO_ACTIVE_LOW>,
             <&gpio0 15 GPIO_ACTIVE_LOW>,
             <&gpio0 19 GPIO_ACTIVE_LOW>,
             <&gpio1 1 GPIO_ACTIVE_LOW>,
@@ -27,7 +32,7 @@
 
     encoder_sw: encoder_sw {
         compatible = "zmk,kscan-gpio-direct";
-        input-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* xiao_d 8 を gpio0 2 に修正 */
+        input-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
 };
 
