@@ -113,7 +113,6 @@
         io-channels = <&adc 0>;
     };
 
-};
 
 &adc {
     status = "okay";
@@ -153,7 +152,6 @@
         steps = <24>;
         status = "disabled";
     };
-
 
    sensors: sensors {
       compatible = "zmk,keymap-sensors";
