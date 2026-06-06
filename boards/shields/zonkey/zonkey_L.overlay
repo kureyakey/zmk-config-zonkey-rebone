@@ -6,7 +6,7 @@
 
 / {
     chosen {
-        zephyr,light-strip = &led_strip;
+        zephyr,light-strip = &leds;
         zephyr,display = &oled;
     };
 
