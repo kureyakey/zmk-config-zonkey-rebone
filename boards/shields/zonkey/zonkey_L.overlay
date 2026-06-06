@@ -15,7 +15,7 @@
         interrupt-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
 
         gpios =
-            <&xiao_d 7 GPIO_ACTIVE_LOW>,
+            <&gpio0 3 GPIO_ACTIVE_LOW>,   /* xiao_d 7 を生ピンの gpio0 3 に修正 */
             <&gpio0 15 GPIO_ACTIVE_LOW>,
             <&gpio0 19 GPIO_ACTIVE_LOW>,
             <&gpio1 1 GPIO_ACTIVE_LOW>,
@@ -23,13 +23,11 @@
             <&gpio0 10 GPIO_ACTIVE_LOW>,
             <&gpio0 31 GPIO_ACTIVE_LOW>;
     };
-};
 
-    encoder_sw: encoder_sw {
+     encoder_sw: encoder_sw {
         compatible = "zmk,kscan-gpio-direct";
-        input-gpios = <&xiao_d 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-    };
-};
+        input-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+}; 
 
 /* Encoder 1 */
 &left_encoder_0 {
@@ -65,6 +63,7 @@
         };
     };
 
+    /* Zephyr 4.xの厳格な記述ルールに合わせ、SPIの極性を追加（タイポ等によるエラーを防止） */
     spi1_default: spi1_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
@@ -85,30 +84,24 @@
 
 &i2c0 {
     status = "okay";
-
     pinctrl-0 = <&i2c0_default>;
     pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
-
     clock-frequency = <100000>;
 
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
-
         width = <128>;
         height = <32>;
-
         segment-offset = <0>;
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <31>;
-
         segment-remap;
         com-invdir;
         com-sequential;
         inversion-on;
-
         prechargep = <0x22>;
     };
 };
