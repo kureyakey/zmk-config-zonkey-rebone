@@ -79,6 +79,6 @@
     };
 };
 
-&right_encoder_3 {
+&encoder_3 {
     status = "okay";
 };
