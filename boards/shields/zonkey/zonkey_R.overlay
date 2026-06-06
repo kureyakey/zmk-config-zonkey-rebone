@@ -80,6 +80,6 @@
     };
 };
 
-&encoder_3 {
+&right_encoder_3 {
     status = "okay";
 };
