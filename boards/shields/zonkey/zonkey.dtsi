@@ -86,6 +86,39 @@
                 ;
     };
 
+    /* Encoder 1: P1.07, P1.05 */
+    left_encoder_1: left_encoder_1 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
+        steps = <80>;
+        status = "disabled";
+    };
+
+    /* Encoder 2 / ANO ENCODER: D10, D9 */
+    left_encoder_2: left_encoder_2 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <24>;
+        status = "disabled";
+    };
+
+   encoder_3: encoder_3 {
+        compatible = "alps,ec11";
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        steps = <80>;
+        status = "disabled";
+    };
+
+   sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&left_encoder_1 &left_encoder_2 &right_encoder_3>;
+        triggers-per-rotation = <10>;
+    };
+
+
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         status = "disabled";
