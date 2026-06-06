@@ -73,6 +73,21 @@
         >;
     };
 
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        status = "disabled";
+    };
+    
+    vbatt: vbatt {
+        // Disable default battery monitoring
+        status = "disabled";
+    };
+    non_lipo_battery: non_lipo_battery {
+        compatible = "zmk,non-lipo-battery";
+        io-channels = <&adc 0>;
+    };
+
+
     kscan0: kscan_0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         label = "KSCAN";
