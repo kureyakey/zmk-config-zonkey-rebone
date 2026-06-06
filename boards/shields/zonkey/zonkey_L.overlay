@@ -6,22 +6,12 @@
 
 / {
     chosen {
+        /* rgbled_adapterの最新仕様に合わせて &led_strip から &leds に修正 */
         zephyr,light-strip = &leds;
         zephyr,display = &oled;
     };
 
-
-  led_strip: ws2812 {
-        compatible = "worldsemi,ws2812-gpio";
-
-
-gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>; 
-        chain-length = <10>; /* LEDの個数。分からなければ10のままでOK */
-        color-mapping = <LED_COLOR_CHANNELS_GRB>;
-    };
-
-
-      kscan0 {
+    kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         interrupt-gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
 
@@ -39,11 +29,7 @@ gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
         compatible = "zmk,kscan-gpio-direct";
         input-gpios = <&gpio0 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* xiao_d 8 を gpio0 2 に修正 */
     };
-}; /* ← ルートノード「/ { ... };」を閉じるカッコは、ファイル全体でここ【1つだけ】です */
-
-/* ==========================================================================
-   ここから下はルートノードの外側（既存デバイスへのプロパティ追加・有効化）
-   ========================================================================== */
+};
 
 /* Encoder 1 */
 &left_encoder_0 {
