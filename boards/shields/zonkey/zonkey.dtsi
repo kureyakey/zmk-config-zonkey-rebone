@@ -85,6 +85,23 @@
                   , <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 
+
+　　trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        status = "disabled";
+    };
+    
+    vbatt: vbatt {
+        // Disable default battery monitoring
+        status = "disabled";
+    };
+    non_lipo_battery: non_lipo_battery {
+        compatible = "zmk,non-lipo-battery";
+        io-channels = <&adc 0>;
+    };
+
+};
+
     /* エンコーダーはルート直下に定義 */
     left_encoder_0: left_encoder_0 {
         compatible = "alps,ec11";
