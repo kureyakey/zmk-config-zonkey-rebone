@@ -14,6 +14,7 @@
         compatible = "worldsemi,ws2812-gpio";
         gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>; 
         chain-length = <0>;
+        color-mapping = <0>;
     };
 
     leds: dummy_leds {
