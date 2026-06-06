@@ -10,3 +10,11 @@
             , <&gpio0 9 GPIO_ACTIVE_HIGH>
             ;
 };
+
+&left_encoder {
+    status = "okay";
+};
+
+&left_encoder {
+    status = "okay";
+};
