@@ -33,10 +33,6 @@ manifest:
       remote: iwk7273
       revision: main
 
-    - name: zmk-ws2812-driver
-      remote: gohanda11
-      revision: main
-
     - name: zmk-tom-oled
       remote: kureyakey
       revision: main
