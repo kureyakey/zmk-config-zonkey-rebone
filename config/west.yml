@@ -34,8 +34,8 @@ manifest:
       revision: main
 
     - name: zmk-tom-oled
-      remote: canandrum  # または最新対応しているフォーク元のリモート名
-      revision: zephyr-4.1
+      remote: canandrum 
+      revision: zephyr-4.1 
 
     - name: zmk-rgbled-widget
       remote: caksoylar
