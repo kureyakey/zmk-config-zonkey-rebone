@@ -83,7 +83,22 @@
                   , <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 
-    /* ...（中略：position_map, trackball_listener, vbatt, non_lipo_battery）... */
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        status = "disabled";
+    };
+    
+    vbatt: vbatt {
+        // Disable default battery monitoring
+        status = "disabled";
+    };
+    non_lipo_battery: non_lipo_battery {
+        compatible = "zmk,non-lipo-battery";
+        io-channels = <&adc 0>;
+    };
+
+};
+
 
     /* エンコーダーとセンサーもここに移動 */
     left_encoder_1: left_encoder_1 {
