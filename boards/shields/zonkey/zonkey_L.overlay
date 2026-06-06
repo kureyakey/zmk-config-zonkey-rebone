@@ -1,13 +1,13 @@
 #include "zonkey.dtsi"
 
 &kscan0 {
-    gpios =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
-            ,  <&gpio0 15 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 19 GPIO_ACTIVE_LOW>
-            ,  <&gpio1 1 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 9 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 10 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 31 GPIO_ACTIVE_LOW>
+        col-gpios
+            = <&xiao_d 10 GPIO_ACTIVE_HIGH>
+            , <&xiao_d 9 GPIO_ACTIVE_HIGH>
+            , <&xiao_d 8 GPIO_ACTIVE_HIGH>
+            , <&xiao_d 7 GPIO_ACTIVE_HIGH>
+            , <&gpio0 10 GPIO_ACTIVE_HIGH>
+            , <&gpio0 9 GPIO_ACTIVE_HIGH>
             ;
 };
 
@@ -37,20 +37,3 @@
     chain-length = <1>;
     // Pre-set WS2812 to blue color (0x0000FF)
 };
-
- /* Encoder 1: P1.07, P1.05 */
-    &left_encoder_1 {
-        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
-        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
-        steps = <80>;
-        status = "okay";
-    };
-
-    /* Encoder 2 / ANO ENCODER: D10, D9 */
-    &left_encoder_2 {
-        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <24>;
-        status = "okay";
-    };
-
