@@ -1,11 +1,18 @@
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/led/led.h>
 #include <physical_layouts.dtsi>
 
 / {
     chosen {
-        zmk,physical-layout = &zonkey_physical_layout;
+        zmk,physical-layout = &soa44_physical_layout;
         zmk,battery = &non_lipo_battery;
+        zmk,ws2812-widget = &led_strip;
     };
+
+　　　aliases {
+        　　led-strip = &led_strip;
+    　　};
+
 
     zonkey_physical_layout: zonkey_physical_layout {
         compatible = "zmk,physical-layout";
@@ -77,7 +84,16 @@
         compatible = "zmk,input-listener";
         status = "disabled";
     };
-    
+
+
+　　 // LED Power Control for WS2812
+    led_power: led_power {
+        compatible = "zmk,ext-power-generic";
+        control-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>; // P-channel MOSFET control
+        label = "LED Power Control";
+        init-delay-ms = <50>;
+    };
+
     vbatt: vbatt {
         // Disable default battery monitoring
         status = "disabled";
@@ -118,5 +134,24 @@
     trackball: trackball@0 {
         status = "disabled";
         reg = <0>;
+    };
+};
+
+// SPI1 for WS2812 LED control
+&spi1 {
+    status = "okay";
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    led_strip: ws2812@0 {
+        compatible = "worldsemi,ws2812-spi";
+        reg = <0>;
+        spi-max-frequency = <4000000>;
+        chain-length = <1>;
+        spi-one-frame = <0x70>;
+        spi-zero-frame = <0x40>;
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
