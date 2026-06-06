@@ -6,9 +6,10 @@
 
 / {
     chosen {
-        zephyr::light-strip = &led_strip;
+        zephyr,light-strip = &led_strip;
         zephyr,display = &oled;
     };
+};
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
