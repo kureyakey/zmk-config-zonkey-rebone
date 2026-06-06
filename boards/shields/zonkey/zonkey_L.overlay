@@ -1,20 +1,26 @@
 #include "zonkey.dtsi"
 
 &kscan0 {
-        col-gpios
-            = <&xiao_d 10 GPIO_ACTIVE_HIGH>
-            , <&xiao_d 9 GPIO_ACTIVE_HIGH> 
-            , <&xiao_d 8 GPIO_ACTIVE_HIGH> 
-            , <&xiao_d 7 GPIO_ACTIVE_HIGH> 
-            , <&gpio0 10 GPIO_ACTIVE_HIGH>
-            , <&gpio0 9 GPIO_ACTIVE_HIGH>
-            ;
+    col-gpios
+        = <&xiao_d 10 GPIO_ACTIVE_HIGH>
+        , <&xiao_d 9 GPIO_ACTIVE_HIGH> 
+        , <&xiao_d 8 GPIO_ACTIVE_HIGH> 
+        , <&xiao_d 7 GPIO_ACTIVE_HIGH> 
+        , <&gpio0 10 GPIO_ACTIVE_HIGH>
+        , <&gpio0 9 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+/* 存在するラベル名に修正 */
+&left_encoder_0 {
+    status = "okay";
 };
 
 &left_encoder_1 {
     status = "okay";
 };
 
-&left_encoder_2 {
-    status = "okay";
-};
+/* 必要であれば encoder_3 も有効化 */
+// &encoder_3 {
+//     status = "okay";
+// };
