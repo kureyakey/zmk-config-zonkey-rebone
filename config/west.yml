@@ -3,13 +3,13 @@ manifest:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
     - name: sekigon-gonnoc
-      url-base: https://github.com/sekigon-gonnoc
+      url-base: https://github.com
     - name: badjeff
-      url-base: https://github.com/badjeff
+      url-base: https://github.com
     - name: iwk7273
-      url-base: https://github.com/iwk7273
+      url-base: https://github.com
     - name: caksoylar
-      url-base: https://github.com/caksoylar
+      url-base: https://github.com
 
   projects:
     - name: zmk
@@ -30,7 +30,8 @@ manifest:
       revision: main
 
     /* ----------------------------------------------------------------------
-       エラーを100%回避するため、リモート名を使わず、直接GitHubのURLを指定しました
+       ニックネームによるURLの合体バグを完全に回避するため、
+       直接 canandrum 氏の正しいリポジトリURLをフル指定しています
        ---------------------------------------------------------------------- */
     - name: zmk-tom-oled
       url: https://github.com
