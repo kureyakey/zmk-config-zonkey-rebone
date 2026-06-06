@@ -9,7 +9,6 @@
         zephyr,light-strip = &led_strip;
         zephyr,display = &oled;
     };
-};
 
     kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
@@ -24,6 +23,7 @@
             <&gpio0 10 GPIO_ACTIVE_LOW>,
             <&gpio0 31 GPIO_ACTIVE_LOW>;
     };
+};
 
     encoder_sw: encoder_sw {
         compatible = "zmk,kscan-gpio-direct";
