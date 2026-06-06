@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: canandrum
+      url-base: https://github.com
     - name: sekigon-gonnoc
       url-base: https://github.com/sekigon-gonnoc
     - name: gohanda11
@@ -10,8 +12,6 @@ manifest:
       url-base: https://github.com/badjeff
     - name: iwk7273
       url-base: https://github.com/iwk7273
-    - name: canandrum
-      url-base: https://github.com
     - name: caksoylar
       url-base: https://github.com/caksoylar
 
