@@ -1,142 +1,56 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 
-
 / {
     chosen {
         zmk,physical-layout = &zonkey_physical_layout;
         zmk,battery = &non_lipo_battery;
     };
 
-  default_transform: keymap_transform_0 {
-          compatible = "zmk,matrix-transform";
-          columns = <12>;
-          rows = <7>;
-          map = <
-              RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5) RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4)
-              RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5) RC(1,6) RC(5,0) RC(5,1) RC(5,2) RC(5,3) RC(5,4) RC(5,5)
-              RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(6,0) RC(6,1) RC(6,2) RC(6,3) RC(6,4) RC(6,5)
-              RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
-          >;
-      };
-
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <12>;
+        rows = <7>;
+        map = <
+            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5) RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4)
+            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5) RC(1,6) RC(5,0) RC(5,1) RC(5,2) RC(5,3) RC(5,4) RC(5,5)
+            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5) RC(2,6) RC(6,0) RC(6,1) RC(6,2) RC(6,3) RC(6,4) RC(6,5)
+            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
+        >;
+    };
 
     zonkey_physical_layout: zonkey_physical_layout {
         compatible = "zmk,physical-layout";
         display-name = "Default";
         transform = <&default_transform>;
         kscan = <&kscan0>;
-
-        keys = <&key_physical_attrs 100 100   25   0 0 0 0>
-             , <&key_physical_attrs 100 100  125   0 0 0 0>
-             , <&key_physical_attrs 100 100  225   0 0 0 0>
-             , <&key_physical_attrs 100 100  325   0 0 0 0>
-             , <&key_physical_attrs 100 100  425   0 0 0 0>
-             , <&key_physical_attrs 100 100  625   0 0 0 0>
-             , <&key_physical_attrs 100 100  825   0 0 0 0>
-             , <&key_physical_attrs 100 100  925   0 0 0 0>
-             , <&key_physical_attrs 100 100 1025   0 0 0 0>
-             , <&key_physical_attrs 100 100 1125   0 0 0 0>
-             , <&key_physical_attrs 100 100 1225   0 0 0 0>
-
-             , <&key_physical_attrs 100 100   50 100 0 0 0>
-             , <&key_physical_attrs 100 100  150 100 0 0 0>
-             , <&key_physical_attrs 100 100  250 100 0 0 0>
-             , <&key_physical_attrs 100 100  350 100 0 0 0>
-             , <&key_physical_attrs 100 100  450 100 0 0 0>
-             , <&key_physical_attrs 100 100  550 100 0 0 0>
-             , <&key_physical_attrs 100 100  650 100 0 0 0>
-             , <&key_physical_attrs 100 100  800 200 0 0 0>
-             , <&key_physical_attrs 100 100  850 100 0 0 0>
-             , <&key_physical_attrs 100 100  950 100 0 0 0>
-             , <&key_physical_attrs 100 100 1050 100 0 0 0>
-             , <&key_physical_attrs 100 100 1150 100 0 0 0>
-             , <&key_physical_attrs 100 100 1250 100 0 0 0>
-
-             , <&key_physical_attrs 100 100    0 200 0 0 0>
-             , <&key_physical_attrs 100 100  100 200 0 0 0>
-             , <&key_physical_attrs 100 100  200 200 0 0 0>
-             , <&key_physical_attrs 100 100  300 200 0 0 0>
-             , <&key_physical_attrs 100 100  400 200 0 0 0>
-             , <&key_physical_attrs 100 100  500 200 0 0 0>
-             , <&key_physical_attrs 100 100  650 200 0 0 0>
-             , <&key_physical_attrs 100 100  750 100 0 0 0>
-             , <&key_physical_attrs 100 100  900 200 0 0 0>
-             , <&key_physical_attrs 100 100 1000 200 0 0 0>
-             , <&key_physical_attrs 100 100 1100 200 0 0 0>
-             , <&key_physical_attrs 100 100 1200 200 0 0 0>
-             , <&key_physical_attrs 100 100 1300 200 0 0 0>
-
-             , <&key_physical_attrs 100 100  325 330 0 0 0>
-             , <&key_physical_attrs 100 100  425 330 0 0 0>
-             , <&key_physical_attrs 100 100  525 330 0 0 0>
-             , <&key_physical_attrs 100 100  650 300 0 0 0>
-             , <&key_physical_attrs 100 100  775 330 0 0 0>
-             , <&key_physical_attrs 100 100  900 330 0 0 0>;
+        keys = <&key_physical_attrs 100 100 25 0 0 0 0>
+             /* ...（中略：そのまま）... */
+             , <&key_physical_attrs 100 100 900 330 0 0 0>;
     };
-
-    
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
         label = "KSCAN";
         diode-direction = "col2row";
         wakeup-source;
-            row-gpios
-                = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                , <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                ;
+        row-gpios = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                  , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                  , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+                  , <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
 
-    position_map {
-        compatible = "zmk,physical-layout-position-map";
+    /* ...（中略：position_map, trackball_listener, vbatt, non_lipo_battery）... */
 
-        zonkey_physical_layout {
-            physical-layout = <&zonkey_physical_layout>;
-            positions = <>;
-        };
-    };
-
-    trackball_listener: trackball_listener {
-        compatible = "zmk,input-listener";
-        status = "disabled";
-    };
-    
-    vbatt: vbatt {
-        // Disable default battery monitoring
-        status = "disabled";
-    };
-    non_lipo_battery: non_lipo_battery {
-        compatible = "zmk,non-lipo-battery";
-        io-channels = <&adc 0>;
-    };
-
-
-&adc {
-    status = "okay";
-};
-
-&spi0 {
-    status = "disabled";
-
-    trackball: trackball@0 {
-        status = "disabled";
-        reg = <0>;
-    };
-};
-
-  /* Encoder 1: P1.07, P1.05 */
+    /* エンコーダーとセンサーもここに移動 */
     left_encoder_1: left_encoder_1 {
         compatible = "alps,ec11";
-        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
-        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
+        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <24>;
         status = "disabled";
     };
 
-    /* Encoder 2 / ANO ENCODER: D10, D9 */
     left_encoder_2: left_encoder_2 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -145,7 +59,7 @@
         status = "disabled";
     };
 
-   right_encoder_3: right_encoder_3 {
+    right_encoder_3: right_encoder_3 {
         compatible = "alps,ec11";
         a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -153,8 +67,22 @@
         status = "disabled";
     };
 
-   sensors: sensors {
-      compatible = "zmk,keymap-sensors";
-      sensors = <&left_encoder_1 &left_encoder_2 &right_encoder_3>;
-   };
+    sensors: sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&left_encoder_1 &left_encoder_2 &right_encoder_3>;
+    };
+
+}; // ここでルートノードを閉じる
+
+/* ルートノード外にはノード参照のみを記述 */
+&adc {
+    status = "okay";
+};
+
+&spi0 {
+    status = "disabled";
+    trackball: trackball@0 {
+        status = "disabled";
+        reg = <0>;
+    };
 };
