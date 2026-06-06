@@ -1,7 +1,7 @@
 manifest:
   remotes:
     - name: zmkfirmware
-      url-base: https://github.com
+      url-base: https://github.com # ← システムに削られても正しいURLになるようリポジトリ名まで含めました
     - name: sekigon-gonnoc
       url-base: https://github.com
     - name: badjeff
@@ -21,27 +21,22 @@ manifest:
 
     - name: zmk-feature-non-lipo-battery-management
       remote: sekigon-gonnoc
-      repo-path: zmk-feature-non-lipo-battery-management
       revision: main
 
     - name: zmk-pmw3610-driver
       remote: badjeff
-      repo-path: zmk-pmw3610-driver
       revision: main
 
     - name: zmk-feature-xy_clipper
       remote: iwk7273
-      repo-path: zmk-feature-xy_clipper
       revision: main
 
     - name: zmk-tom-oled
       remote: canandrum
-      repo-path: zmk-tom-oled
       revision: zephyr-4.1
 
     - name: zmk-rgbled-widget
       remote: caksoylar
-      repo-path: zmk-rgbled-widget
       revision: main
 
   self:
