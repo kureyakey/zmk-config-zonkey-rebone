@@ -30,7 +30,6 @@
              , <&key_physical_attrs 100 100 1025   0 0 0 0>
              , <&key_physical_attrs 100 100 1125   0 0 0 0>
              , <&key_physical_attrs 100 100 1225   0 0 0 0>
-
              , <&key_physical_attrs 100 100   50 100 0 0 0>
              , <&key_physical_attrs 100 100  150 100 0 0 0>
              , <&key_physical_attrs 100 100  250 100 0 0 0>
@@ -44,7 +43,6 @@
              , <&key_physical_attrs 100 100 1050 100 0 0 0>
              , <&key_physical_attrs 100 100 1150 100 0 0 0>
              , <&key_physical_attrs 100 100 1250 100 0 0 0>
-
              , <&key_physical_attrs 100 100    0 200 0 0 0>
              , <&key_physical_attrs 100 100  100 200 0 0 0>
              , <&key_physical_attrs 100 100  200 200 0 0 0>
@@ -58,14 +56,12 @@
              , <&key_physical_attrs 100 100 1100 200 0 0 0>
              , <&key_physical_attrs 100 100 1200 200 0 0 0>
              , <&key_physical_attrs 100 100 1300 200 0 0 0>
-
              , <&key_physical_attrs 100 100  325 330 0 0 0>
              , <&key_physical_attrs 100 100  425 330 0 0 0>
              , <&key_physical_attrs 100 100  525 330 0 0 0>
              , <&key_physical_attrs 100 100  650 300 0 0 0>
              , <&key_physical_attrs 100 100  775 330 0 0 0>
              , <&key_physical_attrs 100 100  900 330 0 0 0>;
-            ;
     };
 
     default_transform: keymap_transform_0 {
@@ -93,39 +89,27 @@
         status = "disabled";
     };
 
-    // LED Power Control for WS2812
     led_power: led_power {
         compatible = "zmk,ext-power-generic";
-        control-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>; // P-channel MOSFET control
+        control-gpios = <&gpio0 15 (GPIO_ACTIVE_LOW)>;
         label = "LED Power Control";
         init-delay-ms = <50>;
     };
 
-    vbatt: vbatt {
-        // Disable default battery monitoring
-        status = "disabled";
-    };
+    vbatt: vbatt { status = "disabled"; };
     non_lipo_battery: non_lipo_battery {
         compatible = "zmk,non-lipo-battery";
         io-channels = <&adc 0>;
     };
-
 };
 
-&adc {
-    status = "okay";
-};
+&adc { status = "okay"; };
 
 &spi0 {
     status = "disabled";
-
-    trackball: trackball@0 {
-        status = "disabled";
-        reg = <0>;
-    };
+    trackball: trackball@0 { status = "disabled"; reg = <0>; };
 };
 
-// SPI1 for WS2812 LED control
 &spi1 {
     status = "okay";
     compatible = "nordic,nrf-spim";
