@@ -1,7 +1,7 @@
 manifest:
   remotes:
     - name: zmkfirmware
-      url-base: https://github.com # ← システムに削られても正しいURLになるようリポジトリ名まで含めました
+      url-base: https://github.com
     - name: sekigon-gonnoc
       url-base: https://github.com
     - name: badjeff
