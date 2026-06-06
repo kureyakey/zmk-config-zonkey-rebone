@@ -80,3 +80,7 @@
         wakeup-source;
     };
 };
+
+&right_encoder_3 {
+    status = "okay";
+};
