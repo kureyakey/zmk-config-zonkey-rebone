@@ -7,7 +7,6 @@
         zmk,physical-layout = &zonkey_physical_layout;
         zmk,battery = &non_lipo_battery;
         zmk,ws2812-widget = &led_strip;
-        zephyr,display = &oled;
     };
 
     aliases {
