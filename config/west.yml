@@ -2,12 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: canandrum
-      url-base: https://github.com
     - name: sekigon-gonnoc
       url-base: https://github.com/sekigon-gonnoc
-    - name: gohanda11
-      url-base: https://github.com/gohanda11
     - name: badjeff
       url-base: https://github.com/badjeff
     - name: iwk7273
@@ -33,8 +29,11 @@ manifest:
       remote: iwk7273
       revision: main
 
+    /* ----------------------------------------------------------------------
+       エラーを100%回避するため、リモート名を使わず、直接GitHubのURLを指定しました
+       ---------------------------------------------------------------------- */
     - name: zmk-tom-oled
-      remote: canandrum 
+      url: https://github.com
       revision: zephyr-4.1 
 
     - name: zmk-rgbled-widget
