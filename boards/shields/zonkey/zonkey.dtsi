@@ -4,7 +4,7 @@
 
 / {
     chosen {
-        zmk,physical-layout = &soa44_physical_layout;
+        zmk,physical-layout = &zonkey_physical_layout;
         zmk,battery = &non_lipo_battery;
         zmk,ws2812-widget = &led_strip;
     };
@@ -13,7 +13,7 @@
         led-strip = &led_strip;
     };
 
-    soa44_physical_layout: soa44_physical_layout {
+    zonkey_physical_layout: zonkey_physical_layout {
         compatible = "zmk,physical-layout";
         display-name = "Default";
         transform = <&default_transform>;
@@ -79,18 +79,26 @@
         >;
     };
 
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
+     kscan0: kscan_0 {
+        compatible = "zmk,kscan-gpio-charlieplex";
         label = "KSCAN";
-        diode-direction = "col2row";
-        wakeup-source;
-            row-gpios
-                = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                , <&xiao_d 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-                ;
     };
+
+    left_encoder_1: left_encoder_1 {
+        compatible = "alps,ec11";
+        status = "disabled";
+    };
+
+    left_encoder_2: left_encoder_2 {
+        compatible = "alps,ec11";
+        status = "disabled";
+    };
+
+    right_encoder_3: right_encoder_3 {
+        compatible = "alps,ec11";
+        status = "disabled";
+    };
+}; 
 
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
