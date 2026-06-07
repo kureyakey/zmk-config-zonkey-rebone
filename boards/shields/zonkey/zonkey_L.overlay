@@ -1,5 +1,12 @@
 #include "zonkey.dtsi"
 
+
+/ {
+    chosen {
+        zephyr,display = &oled;
+    };
+
+
 &kscan0 {
     gpios =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
             ,  <&gpio0 15 GPIO_ACTIVE_LOW>
