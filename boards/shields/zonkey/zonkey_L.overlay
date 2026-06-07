@@ -5,7 +5,7 @@
     chosen {
         zephyr,display = &oled;
     };
-
+};
 
 &kscan0 {
     gpios =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
