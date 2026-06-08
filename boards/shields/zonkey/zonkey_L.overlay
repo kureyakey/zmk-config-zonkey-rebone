@@ -1,17 +1,16 @@
 #include "zonkey.dtsi"
 
-
 / {
     chosen {
         zephyr,display = &oled;
     };
-};
 
-kscan0: kscan0 {
+    /* kscan0をルートノードの中に移動 */
+    kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_LOW)>;
         gpios
-　　　　　　　　=  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
+            =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
             ,  <&gpio0 15 GPIO_ACTIVE_LOW>
             ,  <&gpio0 19 GPIO_ACTIVE_LOW>
             ,  <&gpio1 1 GPIO_ACTIVE_LOW>
@@ -19,6 +18,7 @@ kscan0: kscan0 {
             ,  <&gpio0 10 GPIO_ACTIVE_LOW>
             ,  <&gpio0 31 GPIO_ACTIVE_LOW>
             ;
+    };
 };
  /* Encoder 1: P1.07, P1.05 */
     &left_encoder_1 {
