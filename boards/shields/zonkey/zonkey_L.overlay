@@ -5,19 +5,17 @@
         zephyr,display = &oled;
     };
 
-    /* kscan0をルートノードの中に移動 */
+    // ルートノード { } の中に kscan0 を入れる
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_LOW)>;
-        gpios
-            =  <&xiao_d 7 (GPIO_ACTIVE_LOW)>
-            ,  <&gpio0 15 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 19 GPIO_ACTIVE_LOW>
-            ,  <&gpio1 1 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 9 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 10 GPIO_ACTIVE_LOW>
-            ,  <&gpio0 31 GPIO_ACTIVE_LOW>
-            ;
+        gpios = <&xiao_d 7 (GPIO_ACTIVE_LOW)>,
+                <&gpio0 15 GPIO_ACTIVE_LOW>,
+                <&gpio0 19 GPIO_ACTIVE_LOW>,
+                <&gpio1 1 GPIO_ACTIVE_LOW>,
+                <&gpio0 9 GPIO_ACTIVE_LOW>,
+                <&gpio0 10 GPIO_ACTIVE_LOW>,
+                <&gpio0 31 GPIO_ACTIVE_LOW>;
     };
 };
  /* Encoder 1: P1.07, P1.05 */
