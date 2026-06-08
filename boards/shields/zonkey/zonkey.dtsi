@@ -86,7 +86,7 @@
 
     led_power: led_power {
         compatible = "zmk,ext-power-generic";
-        control-gpios = <&gpio0 3 (GPIO_ACTIVE_LOW)>;
+        control-gpios = <&gpio0 28 (GPIO_ACTIVE_LOW)>;
         label = "LED Power Control";
         init-delay-ms = <50>;
     };
