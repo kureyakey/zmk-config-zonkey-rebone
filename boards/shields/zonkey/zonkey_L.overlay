@@ -5,7 +5,6 @@
         zephyr,display = &oled;
     };
 
-    // ルートノード { } の中に kscan0 を入れる
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
         interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_LOW)>;
@@ -18,45 +17,42 @@
                 <&gpio0 31 GPIO_ACTIVE_LOW>;
     };
 };
- /* Encoder 1: P1.07, P1.05 */
-    &left_encoder_1 {
-        a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.07 */
-        b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;  /* P1.05 */
-        steps = <80>;
-        status = "okay";
-    };
 
-    /* Encoder 2 / ANO ENCODER: D10, D9 */
-    &left_encoder_2 {
-        a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-        steps = <24>;
-        status = "okay";
-    };
+&left_encoder_1 {
+    a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    steps = <80>;
+    status = "okay";
+};
 
-// Pin control for SPI1 (WS2812 LED)
+&left_encoder_2 {
+    a-gpios = <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&gpio1 14 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    steps = <24>;
+    status = "okay";
+};
+
+/* pinctrl はまとめて1つに記述する */
 &pinctrl {
+    /* SPI1用 */
     spi1_default: spi1_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
         };
     };
 
     spi1_sleep: spi1_sleep {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 0, 20)>,
-                <NRF_PSEL(SPIM_MOSI, 0, 19)>,
-                <NRF_PSEL(SPIM_MISO, 0, 19)>;
+                    <NRF_PSEL(SPIM_MOSI, 0, 19)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 19)>;
             low-power-enable;
         };
     };
-};
 
-
-/* I2C設定 (OLED用) */
-&pinctrl {
+    /* I2C0用 */
     i2c0_default: i2c0_default {
         group1 {
             psels = <NRF_PSEL(TWIM_SDA, 0, 4)>,
@@ -79,8 +75,8 @@
     pinctrl-0 = <&i2c0_default>;
     pinctrl-1 = <&i2c0_sleep>;
     pinctrl-names = "default", "sleep";
-
     clock-frequency = <100000>;
+
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
@@ -96,13 +92,11 @@
     };
 };
 
-
-// Override led_strip to set blue color
 &led_strip {
     status = "okay";
     chain-length = <1>;
-    // Pre-set WS2812 to blue color (0x0000FF)
 };
+
 &i2c1 {
     status = "disabled";
 };
