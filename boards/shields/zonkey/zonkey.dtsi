@@ -64,7 +64,9 @@
              , <&key_physical_attrs 100 100  900 330 0 0 0>;
     };
 
-    default_transform {
+    default_transform: keymap_transform_0 {
+    compatible = "zmk,matrix-transform";
+
     rows = <6>;
     columns = <5>;
 
