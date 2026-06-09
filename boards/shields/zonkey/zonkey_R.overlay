@@ -4,22 +4,26 @@
 #include <input/processors.dtsi>
 
 / {
-    /* すべてのノード定義は、このルートノード { } の中に記述します */
-
     chosen {
-        /* 必要に応じて設定 */
+        zmk,kscan = &kscan0;
     };
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW)>;
-        gpios = <&gpio0 15 GPIO_ACTIVE_LOW>,
-                <&gpio0 19 GPIO_ACTIVE_LOW>,
-                <&gpio1 1 GPIO_ACTIVE_LOW>,
-                <&gpio0 9 GPIO_ACTIVE_LOW>,
-                <&gpio0 10 GPIO_ACTIVE_LOW>,
-                <&gpio0 31 GPIO_ACTIVE_LOW>;
-    };
+        // interrupt-gpios も PULL_UP しておくと安定します
+        interrupt-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        
+        // 【重要】すべてのピンに PULL_UP を追加
+        // 【重要】左手と同じキー数をカバーするため、ピンを7本に揃える必要があります
+        // ※ 7本目のピン（ここでは例として &gpio0 2 を追加）は、実際の空きピンを指定してください
+        gpios = <&gpio0 2  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 19 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio1 1  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>, // CSを29に逃がしたので、0 9 は使用可能
+                <&gpio0 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+// 7本目の追加ピン（例）    };
 
     xy_clipper: xy_clipper {
         compatible = "zmk,input-processor-xy-clipper";
@@ -46,12 +50,16 @@
     };
 };
 
-/* ルートの外側は「既存ノードの拡張（&で始まるもの）」のみを記述 */
+/* 既存ノードの拡張 */
 
 &default_transform {
-    col-offset = <6>;
+    // 【消去】col-offset = <6>; はチャーリープレックスでは機能しません
+    
+    // 【修正】左手側マトリクス（7ピン＝7行）の分だけ、右手の開始位置を下にずらす
+    row-offset = <7>;
 };
 
+// --- 以下、encoder や pinctrl、spi0、led_strip は修正後のままでOK ---
 &right_encoder_3 {
     a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -100,7 +108,7 @@
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
+    cs-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>; // 回避成功部分
 
     trackball: trackball@0 {
         status = "okay";
