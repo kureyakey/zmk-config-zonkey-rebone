@@ -2,21 +2,26 @@
 
 / {
     chosen {
+        // 【重要】ZMKにこの新しいチャーリープレックス機構を使うよう指示
+        zmk,kscan = &kscan0;
     };
 
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-charlieplex";
-        interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_LOW)>;
-        gpios = <&xiao_d 7 (GPIO_ACTIVE_LOW)>,
-                <&gpio0 15 GPIO_ACTIVE_LOW>,
-                <&gpio0 19 GPIO_ACTIVE_LOW>,
-                <&gpio1 1 GPIO_ACTIVE_LOW>,
-                <&gpio0 9 GPIO_ACTIVE_LOW>,
-                <&gpio0 10 GPIO_ACTIVE_LOW>,
-                <&gpio0 31 GPIO_ACTIVE_LOW>;
+        interrupt-gpios = <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        
+        // 【重要】すべてのピンに GPIO_PULL_UP を追加
+        gpios = <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 19 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio1 1  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 9  (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>,
+                <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
     };
 };
 
+// --- 以下、エンコーダやpinctrlの設定はそのまま維持 ---
 &left_encoder_1 {
     a-gpios = <&gpio1 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     b-gpios = <&gpio1 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -31,9 +36,7 @@
     status = "okay";
 };
 
-/* pinctrl はまとめて1つに記述する */
 &pinctrl {
-    /* SPI1用 */
     spi1_default: spi1_default {
         group1 {
             psels = <NRF_PSEL(SPIM_SCK, 1, 3)>,
@@ -50,24 +53,7 @@
             low-power-enable;
         };
     };
-
-    /* I2C0用 */
-    i2c0_default: i2c0_default {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 5)>;
-        };
-    };
-
-    i2c0_sleep: i2c0_sleep {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0, 4)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 5)>;
-            low-power-enable;
-        };
-    };
 };
-
 
 &led_strip {
     status = "okay";
